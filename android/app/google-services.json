@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "562043989013",
+    "project_id": "transhub-3bcb9",
+    "storage_bucket": "transhub-3bcb9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562043989013:android:768928529efad5fe1d321c",
+        "android_client_info": {
+          "package_name": "com.example.ecoride"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtaa02o3ajuK0sUeiT2I6mhnk53LO-sos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
