@@ -1,3 +1,5 @@
+import 'package:ecoride/features/hackathon/hackathon_home.dart';
+import 'package:ecoride/features/public_transport/AskFromWhereToWhere.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:intl/intl.dart';
@@ -128,16 +130,25 @@ class HomeScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
+                  _buildFeatureBox(context, 'RideShare', Icons.directions_car,
+                      Colors.blue, () {}),
                   _buildFeatureBox(
-                      context, 'RideShare', Icons.directions_car, Colors.blue),
-                  _buildFeatureBox(
-                      context, 'Public Transport', Icons.train, Colors.green),
-                  _buildFeatureBox(
-                      context, 'Cargo', Icons.local_shipping, Colors.orange),
-                  _buildFeatureBox(
-                      context, 'Supply Chain', Icons.business, Colors.purple),
-                  _buildFeatureBox(
-                      context, 'Hackathon', Icons.code, Colors.red),
+                      context, 'Public Transport', Icons.train, Colors.green,
+                      () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (c) => AskFromWhereToWhere()));
+                  }),
+                  _buildFeatureBox(context, 'Cargo', Icons.local_shipping,
+                      Colors.orange, () {}),
+                  _buildFeatureBox(context, 'Supply Chain', Icons.business,
+                      Colors.purple, () {}),
+                  _buildFeatureBox(context, 'Hackathon', Icons.code, Colors.red,
+                      () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (c) => HackathonHome()));
+                  }),
                 ],
               ),
             ),
@@ -322,32 +333,35 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureBox(
-      BuildContext context, String title, IconData icon, Color color) {
-    return Card(
-      elevation: 4.0,
-      color: color,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      child: Container(
-        width: 100.0,
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 32.0,
-              color: Colors.white,
-            ),
-            SizedBox(height: 4.0),
-            Text(
-              title,
-              style: TextStyle(fontSize: 12.0, color: Colors.white),
-              textAlign: TextAlign.center,
-            ),
-          ],
+  Widget _buildFeatureBox(BuildContext context, String title, IconData icon,
+      Color color, void Function()? onTap) {
+    return InkWell(
+      onTap: onTap!,
+      child: Card(
+        elevation: 4.0,
+        color: color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Container(
+          width: 100.0,
+          padding: EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 32.0,
+                color: Colors.white,
+              ),
+              SizedBox(height: 4.0),
+              Text(
+                title,
+                style: TextStyle(fontSize: 12.0, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );
