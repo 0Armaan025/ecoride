@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecoride/features/auth/loginScreen.dart';
+import 'package:ecoride/features/auth/models/user.dart';
 import 'package:ecoride/features/home/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -106,13 +107,18 @@ class _registerScreenState extends State<registerScreen> {
                       FirebaseAuth.instance.createUserWithEmailAndPassword(
                           email: emailController.text,
                           password: passController.text);
+
+                      UserModel model = UserModel(
+                          name: nameController.text,
+                          uid: FirebaseAuth.instance.currentUser?.uid ?? '',
+                          email: emailController.text,
+                          ecoCoins: "0",
+                          userType: "customer");
+
                       FirebaseFirestore.instance
                           .collection("users")
                           .doc(FirebaseAuth.instance.currentUser!.uid)
-                          .set({
-                        "email": emailController.text,
-                        "name": nameController.text,
-                      });
+                          .set(model.toMap());
                       Navigator.push(context,
                           MaterialPageRoute(builder: (c) => HomeScreen()));
                     },

@@ -1,8 +1,10 @@
+import 'package:ecoride/features/rideshare/screens/vehicle_pooling/add_ride_screen.dart';
+import 'package:ecoride/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CustomerHomeScreen extends StatelessWidget {
+class RidesScreen extends StatelessWidget {
   final List<String> updates = [
     "https://via.placeholder.com/300x150?text=Update1",
     "https://via.placeholder.com/300x150?text=Update2",
@@ -12,6 +14,7 @@ class CustomerHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green,
       appBar: AppBar(
         title: Text("EcoRide"),
       ),
@@ -19,29 +22,20 @@ class CustomerHomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Good morning, Armaan! 👋🏻",
-                    style: GoogleFonts.poppins(
-                      color: Colors.blue,
-                      fontSize: 24,
-                    ),
-                  ),
+            const SizedBox(
+              height: 30,
+            ),
+            Center(
+              child: Text(
+                'A Ride time 🚗🔥',
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontSize: 28,
                 ),
-                Container(
-                  margin: const EdgeInsets.only(left: 20),
-                  width: double.infinity,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "23rd September, 2023",
-                    style: GoogleFonts.roboto(color: Colors.grey.shade400),
-                  ),
-                ),
-              ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
             ),
             CarouselSlider(
               items: updates.map((url) {
@@ -62,7 +56,7 @@ class CustomerHomeScreen extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20),
               child: ElevatedButton(
                 onPressed: () {
-                  // Handle Add Vehicle button press
+                  moveScreen(context, AddRideScreen());
                 },
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -70,7 +64,7 @@ class CustomerHomeScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  primary: Colors.blue,
+                  primary: Colors.green.shade800,
                 ),
                 child: Text(
                   "Add Your Vehicle for Carpooling",
@@ -88,26 +82,30 @@ class CustomerHomeScreen extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: 10),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(children: [
-                RideListing(
-                  imageUrl: "https://via.placeholder.com/100x100?text=Ride1",
-                  title: "Car - ABC 123",
-                  driver: "Driver: John Doe",
-                  destination: "Destination: Destination",
-                ),
-                RideListing(
-                  imageUrl: "https://via.placeholder.com/100x100?text=Ride2",
-                  title: "Bike - XYZ 456",
-                  driver: "Driver: Jane Smith",
-                  destination: "Destination: Destination",
-                ),
-              ]),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(children: [
+                  RideListing(
+                    imageUrl: "https://via.placeholder.com/100x100?text=Ride1",
+                    title: "Car - ABC 123",
+                    driver: "Driver: John Doe",
+                    destination: "Destination: Destination",
+                  ),
+                  RideListing(
+                    imageUrl: "https://via.placeholder.com/100x100?text=Ride2",
+                    title: "Bike - XYZ 456",
+                    driver: "Driver: Jane Smith",
+                    destination: "Destination: Destination",
+                  ),
+                ]),
+              ),
             ),
 
             // Add more ride listings as needed
@@ -175,7 +173,7 @@ class RideListing extends StatelessWidget {
         margin: EdgeInsets.all(10),
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.lightGreen,
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
@@ -193,15 +191,22 @@ class RideListing extends StatelessWidget {
             SizedBox(height: 10),
             Text(
               title,
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 18,
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: 5),
-            Text(driver),
+            Text(driver,
+                style: GoogleFonts.roboto(
+                  color: Colors.white,
+                )),
             SizedBox(height: 10),
-            Text(destination),
+            Text(destination,
+                style: GoogleFonts.roboto(
+                  color: Colors.white,
+                )),
             SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
@@ -213,7 +218,7 @@ class RideListing extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                primary: Colors.blue,
+                primary: Colors.green[600],
               ),
               child: Text(
                 "Register",

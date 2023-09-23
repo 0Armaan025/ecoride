@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 void main() {
   runApp(MaterialApp(
+    theme: ThemeData(
+      primaryColor: Colors.green, // Main theme color
+
+      scaffoldBackgroundColor: Colors.white, // Background color
+    ),
     home: HomeScreen(),
   ));
 }
@@ -54,12 +60,13 @@ class HomeScreen extends StatelessWidget {
 
     // Placeholder images for the carousel
     final List<String> carouselImages = [
-      'https://example.com/image1.jpg',
-      'https://example.com/image2.jpg',
-      'https://example.com/image3.jpg',
+      'https://plus.unsplash.com/premium_photo-1661418491136-d6b35479d44f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FycG9vbGluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=600&q=60',
+      'https://plus.unsplash.com/premium_photo-1677535563007-d10ba8cb423d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2FyZ298ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=600&q=60',
+      'https://plus.unsplash.com/premium_photo-1675670749768-77b94648a6fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dHJhbnNwb3J0fGVufDB8fDB8fHww&auto=format&fit=crop&w=600&q=60',
     ];
 
     return Scaffold(
+      backgroundColor: Colors.lightGreen,
       appBar: AppBar(
         title: Text('TransHub'),
         actions: [
@@ -82,63 +89,88 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Good Morning, Armaan',
-                    style:
-                        TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                   SizedBox(height: 8.0),
                   Text(
                     formattedDate,
-                    style: TextStyle(fontSize: 16.0, color: Colors.grey),
+                    style: TextStyle(fontSize: 16.0, color: Colors.black),
                   ),
                 ],
               ),
             ),
             // Carousel of random internet images with a fade animation
-            Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              child: CarouselSlider.builder(
-                itemCount: carouselImages.length,
-                itemBuilder: (BuildContext context, int index, int realIndex) {
-                  return Container(
-                    width: double.infinity,
-                    child: AnimatedOpacity(
-                      duration: Duration(seconds: 1),
-                      opacity: 1.0,
-                      child: Image.network(
-                        carouselImages[index],
-                        fit: BoxFit.cover,
-                      ),
+            CarouselSlider.builder(
+              itemCount: carouselImages.length,
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                return Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: AnimatedOpacity(
+                    duration: Duration(seconds: 1),
+                    opacity: 1.0,
+                    child: Image.network(
+                      carouselImages[index],
+                      fit: BoxFit.cover,
                     ),
-                  );
-                },
-                options: CarouselOptions(
-                  height: 200.0,
-                  enlargeCenterPage: true,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                ),
+                  ),
+                );
+              },
+              options: CarouselOptions(
+                height: 200.0,
+                enlargeCenterPage: true,
+                autoPlay: true,
+                autoPlayInterval: Duration(seconds: 3),
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                autoPlayCurve: Curves.fastOutSlowIn,
               ),
             ),
             SizedBox(height: 16.0),
             // Horizontal scrolling feature list with neumorphism design
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  _buildFeatureBox(
-                      context, 'RideShare', Icons.directions_car, Colors.blue),
-                  _buildFeatureBox(
-                      context, 'Public Transport', Icons.train, Colors.green),
-                  _buildFeatureBox(
-                      context, 'Cargo', Icons.local_shipping, Colors.orange),
-                  _buildFeatureBox(
-                      context, 'Supply Chain', Icons.business, Colors.purple),
-                  _buildFeatureBox(
-                      context, 'Hackathon', Icons.code, Colors.red),
-                ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    _buildFeatureBox(
+                      context,
+                      'RideShare',
+                      Icons.directions_car,
+                      Colors.green, // Change to green manually
+                    ),
+                    _buildFeatureBox(
+                      context,
+                      'Public Transport',
+                      Icons.train,
+                      Colors.green, // Change to green manually
+                    ),
+                    _buildFeatureBox(
+                      context,
+                      'Cargo',
+                      Icons.local_shipping,
+                      Colors.green, // Change to green manually
+                    ),
+                    _buildFeatureBox(
+                      context,
+                      'Supply Chain',
+                      Icons.business,
+                      Colors.green, // Change to green manually
+                    ),
+                    _buildFeatureBox(
+                      context,
+                      'Hackathon',
+                      Icons.code,
+                      Colors.green, // Change to green manually
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 16.0),
@@ -150,8 +182,10 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Ride History',
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(height: 8.0),
                   ListView.builder(
@@ -160,9 +194,8 @@ class HomeScreen extends StatelessWidget {
                     itemCount: rideHistory.length,
                     itemBuilder: (BuildContext context, int index) {
                       final ride = rideHistory[index];
-                      final color = index % 2 == 0
-                          ? Colors.lightBlue
-                          : Colors.lightGreen; // Alternating colors
+                      final color =
+                          index % 2 == 0 ? Colors.lightBlue : Colors.lightGreen;
                       return Container(
                         margin: EdgeInsets.symmetric(vertical: 4.0),
                         padding: EdgeInsets.all(8.0),
@@ -219,14 +252,17 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Cargo Chain',
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(height: 8.0),
                   Container(
                     padding: EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
+                      color: Colors.green,
                       borderRadius: BorderRadius.circular(8.0),
                       boxShadow: [
                         BoxShadow(
@@ -244,25 +280,32 @@ class HomeScreen extends StatelessWidget {
                           'Shipment Status: ${cargoShipments[0]['shipmentStatus']}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ),
                         Text(
                           'Current Location: ${cargoShipments[0]['currentLocation']}',
+                          style: GoogleFonts.roboto(color: Colors.white),
                         ),
                         Text(
                           'Estimated Arrival: ${cargoShipments[0]['estimatedArrival']}',
+                          style: GoogleFonts.roboto(color: Colors.white),
                         ),
                         Text(
                           'Cargo Type: ${cargoShipments[0]['cargoType']}',
+                          style: GoogleFonts.roboto(color: Colors.white),
                         ),
                         Text(
                           'Weight: ${cargoShipments[0]['weight']}',
+                          style: GoogleFonts.roboto(color: Colors.white),
                         ),
                         Text(
                           'Sender: ${cargoShipments[0]['sender']}',
+                          style: GoogleFonts.roboto(color: Colors.white),
                         ),
                         Text(
                           'Receiver: ${cargoShipments[0]['receiver']}',
+                          style: GoogleFonts.roboto(color: Colors.white),
                         ),
                       ],
                     ),
@@ -279,8 +322,11 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Additional Cargo Shipments',
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(height: 8.0),
                   Container(
@@ -299,13 +345,11 @@ class HomeScreen extends StatelessWidget {
                     ),
                     child: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount:
-                            2, // Adjust the number of columns as needed
+                        crossAxisCount: 2,
                         crossAxisSpacing: 8.0,
                         mainAxisSpacing: 8.0,
                       ),
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
                       itemCount: cargoShipments.length,
                       itemBuilder: (BuildContext context, int index) {
                         final shipment = cargoShipments[index];
@@ -315,6 +359,9 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+            const SizedBox(
+              height: 40,
             ),
           ],
         ),
@@ -354,48 +401,70 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildCargoShipmentCard(Map<String, String> shipment) {
-    return Container(
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            spreadRadius: 2,
-            blurRadius: 4,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Shipment Status: ${shipment['shipmentStatus']}',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+    return SingleChildScrollView(
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        padding: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: Colors.green,
+          borderRadius: BorderRadius.circular(8.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 4,
+              offset: Offset(0, 2),
             ),
-          ),
-          Text(
-            'Current Location: ${shipment['currentLocation']}',
-          ),
-          Text(
-            'Estimated Arrival: ${shipment['estimatedArrival']}',
-          ),
-          Text(
-            'Cargo Type: ${shipment['cargoType']}',
-          ),
-          Text(
-            'Weight: ${shipment['weight']}',
-          ),
-          Text(
-            'Sender: ${shipment['sender']}',
-          ),
-          Text(
-            'Receiver: ${shipment['receiver']}',
-          ),
-        ],
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Shipment Status: ${shipment['shipmentStatus']}',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              'Current Location: ${shipment['currentLocation']}',
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              'Estimated Arrival: ${shipment['estimatedArrival']}',
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              'Cargo Type: ${shipment['cargoType']}',
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              'Weight: ${shipment['weight']}',
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              'Sender: ${shipment['sender']}',
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              'Receiver: ${shipment['receiver']}',
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

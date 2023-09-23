@@ -37,6 +37,7 @@ class _AddRideScreenState extends State<AddRideScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green,
       appBar: AppBar(
         title: Text("Add Ride Details"),
       ),
@@ -54,30 +55,86 @@ class _AddRideScreenState extends State<AddRideScreen> {
               style: GoogleFonts.poppins(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: Colors.blue),
+                  color: Colors.white),
             )),
             SizedBox(
               height: 40,
             ),
             TextFormField(
               controller: nameController,
-              decoration: InputDecoration(labelText: "Name"),
+              decoration: InputDecoration(
+                labelText: "Name",
+                labelStyle: GoogleFonts.poppins(
+                  color: Colors.white,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+              ),
             ),
             SizedBox(height: 10),
             TextFormField(
               controller: descriptionController,
-              decoration: InputDecoration(labelText: "Description"),
+              decoration: InputDecoration(
+                labelText: "Description",
+                labelStyle: GoogleFonts.poppins(
+                  color: Colors.white,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+              ),
               maxLines: 3,
             ),
             SizedBox(height: 10),
             TextFormField(
               controller: carModelController,
-              decoration: InputDecoration(labelText: "Vehicle Model"),
+              decoration: InputDecoration(
+                labelText: "Vehicle Model",
+                labelStyle: GoogleFonts.poppins(
+                  color: Colors.white,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+              ),
             ),
             SizedBox(height: 10),
             Row(
               children: [
-                Text("Mask Required:"),
+                Text(
+                  "Mask Required:",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 Checkbox(
                   value: isMaskRequired,
                   onChanged: (value) {
@@ -113,7 +170,24 @@ class _AddRideScreenState extends State<AddRideScreen> {
             SizedBox(height: 10),
             TextFormField(
               controller: diseasesController,
-              decoration: InputDecoration(labelText: "Diseases (if any)"),
+              decoration: InputDecoration(
+                labelText: "Vehicle Model",
+                labelStyle: GoogleFonts.poppins(
+                  color: Colors.white,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+              ),
             ),
             SizedBox(height: 20),
             ElevatedButton(
