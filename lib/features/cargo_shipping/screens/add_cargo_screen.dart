@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -13,16 +16,20 @@ class AddCargoScreen extends StatefulWidget {
 
 class _AddCargoScreenState extends State<AddCargoScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController shipperEmailControler = TextEditingController();
   final TextEditingController originController = TextEditingController();
   final TextEditingController destinationController = TextEditingController();
-  final TextEditingController cargoDescriptionController = TextEditingController();
+  final TextEditingController cargoDescriptionController =
+      TextEditingController();
+  final TextEditingController cargoWeightController = TextEditingController();
+  bool professionalismChecked = false;
   String consentLetter = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Shipment Details"),
+        title: Text("Add Cargo Details"),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
@@ -59,6 +66,44 @@ class _AddCargoScreenState extends State<AddCargoScreen> {
                 maxLines: 3,
               ),
               SizedBox(height: 10),
+              TextFormField(
+                controller: cargoWeightController,
+                decoration: InputDecoration(labelText: "Cargo Weight (in kg)"),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Cargo Weight is required';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 10),
+              TextFormField(
+                controller: shipperEmailControler,
+                decoration: InputDecoration(labelText: "Shipper email"),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'the shipper email is required';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Checkbox(
+                    value: professionalismChecked,
+                    onChanged: (value) {
+                      setState(() {
+                        professionalismChecked = value!;
+                      });
+                    },
+                  ),
+                  Text("Professionalism Check"),
+                ],
+              ),
+              SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
                   // Validate form fields
@@ -71,8 +116,16 @@ class _AddCargoScreenState extends State<AddCargoScreen> {
               ),
               SizedBox(height: 20),
               GestureDetector(
-                onTap: () {
-                  // Implement the logic for uploading a consent letter here
+                onTap: () async {
+                  final pickedFile = await ImagePicker()
+                      .pickImage(source: ImageSource.gallery);
+
+                  if (pickedFile != null) {
+                    // Handle the picked image file here
+                    File imageFile = File(pickedFile.path);
+
+                    // You can save the `imageFile` and use it as needed
+                  }
                 },
                 child: Container(
                   width: double.infinity,
