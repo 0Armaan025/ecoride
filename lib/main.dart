@@ -1,7 +1,4 @@
 import 'package:ecoride/features/cargo_shipping/screens/add_cargo_screen.dart';
-import 'package:ecoride/features/rideshare/screens/vehicle_pooling/add_ride_screen.dart';
-import 'package:ecoride/features/rideshare/screens/vehicle_pooling/home_screen.dart';
-import 'package:ecoride/features/rideshare/screens/vehicle_pooling/vehicle_pooler_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -26,7 +23,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AddShipmentScreen(),
+      home: AddCargoScreen(),
     );
   }
 }

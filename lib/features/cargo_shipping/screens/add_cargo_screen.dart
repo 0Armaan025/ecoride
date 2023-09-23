@@ -1,113 +1,105 @@
 import 'package:flutter/material.dart';
-import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pdfWidgets;
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 
 void main() {
   runApp(MaterialApp(
-    home: AddShipmentScreen(),
+    home: AddCargoScreen(),
   ));
 }
 
-class AddShipmentScreen extends StatefulWidget {
+class AddCargoScreen extends StatefulWidget {
   @override
-  _AddShipmentScreenState createState() => _AddShipmentScreenState();
+  _AddCargoScreenState createState() => _AddCargoScreenState();
 }
 
-class _AddShipmentScreenState extends State<AddShipmentScreen> {
-  TextEditingController originController = TextEditingController();
-  TextEditingController destinationController = TextEditingController();
-  TextEditingController cargoDescriptionController = TextEditingController();
-  PDFDocument? pdfDocument;
-
-  Future<void> generatePDF() async {
-    final pdf = pdfWidgets.Document();
-    final origin = originController.text;
-    final destination = destinationController.text;
-    final cargoDescription = cargoDescriptionController.text;
-
-    // Register the external font
-    final font =
-        pdfWidgets.Font.ttf(await rootBundle.load("assets/fonts/arial.ttf"));
-
-    pdf.addPage(
-      pdfWidgets.Page(
-        build: (context) {
-          return pdfWidgets.Column(
-            crossAxisAlignment: pdfWidgets.CrossAxisAlignment.start,
-            children: [
-              pdfWidgets.Text(
-                'Shipment Details',
-                style: pdfWidgets.TextStyle(fontSize: 20, font: font),
-              ),
-              pdfWidgets.Text('Origin: $origin',
-                  style: pdfWidgets.TextStyle(font: font)),
-              pdfWidgets.Text('Destination: $destination',
-                  style: pdfWidgets.TextStyle(font: font)),
-              pdfWidgets.Text('Cargo Description: $cargoDescription',
-                  style: pdfWidgets.TextStyle(font: font)),
-              // Add more details as needed
-            ],
-          );
-        },
-      ),
-    );
-
-    final directory = await getApplicationDocumentsDirectory();
-    final pdfPath = '${directory.path}/shipment_details.pdf';
-
-    final file = File(pdfPath);
-    await file.writeAsBytes(await pdf.save());
-
-    final pdfViewer = await PDFDocument.fromFile(file);
-
-    setState(() {
-      pdfDocument = pdfViewer;
-    });
-  }
+class _AddCargoScreenState extends State<AddCargoScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController originController = TextEditingController();
+  final TextEditingController destinationController = TextEditingController();
+  final TextEditingController cargoDescriptionController = TextEditingController();
+  String consentLetter = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Shipment Details"),
+        title: Text("Shipment Details"),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextFormField(
-              controller: originController,
-              decoration: InputDecoration(labelText: "Origin"),
-            ),
-            SizedBox(height: 10),
-            TextFormField(
-              controller: destinationController,
-              decoration: InputDecoration(labelText: "Destination"),
-            ),
-            SizedBox(height: 10),
-            TextFormField(
-              controller: cargoDescriptionController,
-              decoration: InputDecoration(labelText: "Cargo Description"),
-              maxLines: 3,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                generatePDF();
-              },
-              child: Text("Generate Shipment PDF"),
-            ),
-            SizedBox(height: 20),
-            if (pdfDocument != null)
-              PDFViewer(
-                document: pdfDocument!,
-              ), // Display the generated PDF
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                controller: originController,
+                decoration: InputDecoration(labelText: "Origin"),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Origin is required';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 10),
+              TextFormField(
+                controller: destinationController,
+                decoration: InputDecoration(labelText: "Destination"),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Destination is required';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 10),
+              TextFormField(
+                controller: cargoDescriptionController,
+                decoration: InputDecoration(labelText: "Cargo Description"),
+                maxLines: 3,
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  // Validate form fields
+                  if (_formKey.currentState!.validate()) {
+                    // Form is valid, proceed with submission
+                    // You can submit the data to your backend or perform other actions here
+                  }
+                },
+                child: Text("Submit"),
+              ),
+              SizedBox(height: 20),
+              GestureDetector(
+                onTap: () {
+                  // Implement the logic for uploading a consent letter here
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: consentLetter.isEmpty
+                      ? Text(
+                          "Upload Consent Letter",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      : Text(
+                          "Consent Letter Uploaded",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
