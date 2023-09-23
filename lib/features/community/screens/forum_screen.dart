@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecoride/models/forum.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -35,10 +37,26 @@ class _ForumScreenState extends State<ForumScreen> {
       appBar: AppBar(
         title: Text('Forum'),
       ),
-      body: ListView.builder(
-        itemCount: forumPosts.length,
-        itemBuilder: (context, index) {
-          return _buildForumPostCard(forumPosts[index]);
+      // body: ListView.builder(
+      //   itemCount: forumPosts.length,
+      //   itemBuilder: (context, index) {
+      //     return _buildForumPostCard(forumPosts[index]);
+      //   },
+      // ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection("Forums").snapshots(),
+        builder: (context, snapshot) {
+          return snapshot.hasData
+              ? ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    Forum forum = Forum.fromMap(snapshot.data!.docs[index]
+                        .data() as Map<String, dynamic>);
+                    return _buildForumPostCard(forum);
+                  },
+                )
+              : Container();
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -50,7 +68,7 @@ class _ForumScreenState extends State<ForumScreen> {
     );
   }
 
-  Widget _buildForumPostCard(Post post) {
+  Widget _buildForumPostCard(Forum post) {
     return Card(
       elevation: 3,
       margin: EdgeInsets.all(8),
@@ -73,7 +91,7 @@ class _ForumScreenState extends State<ForumScreen> {
             SizedBox(height: 8),
             InkWell(
               onTap: () {
-                _navigateToCommentsScreen(context, post.comments ?? []);
+                _navigateToCommentsScreen(context, post.comment);
               },
               child: Text(
                 'Comments:',
@@ -91,7 +109,7 @@ class _ForumScreenState extends State<ForumScreen> {
     );
   }
 
-  Widget _buildCommentInputField(Post post) {
+  Widget _buildCommentInputField(Forum post) {
     return Row(
       children: [
         Expanded(
@@ -107,13 +125,18 @@ class _ForumScreenState extends State<ForumScreen> {
         IconButton(
           icon: Icon(Icons.send),
           onPressed: () {
+            FirebaseFirestore.instance
+                .collection("Forums")
+                .doc(post.Id)
+                .update({
+              "comment": FieldValue.arrayUnion([commentController.text])
+            });
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text('Comment added!'),
               ),
             );
             setState(() {
-              post.comments.add(commentController.text);
               commentController.clear();
             });
           },
@@ -141,6 +164,7 @@ class _ForumScreenState extends State<ForumScreen> {
                 },
               ),
               TextField(
+                maxLines: null,
                 decoration: InputDecoration(labelText: 'Content'),
                 onChanged: (value) {
                   content = value;
@@ -157,8 +181,12 @@ class _ForumScreenState extends State<ForumScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                setState(() {
-                  forumPosts.add(Post(title: title, content: content));
+                String id = DateTime.now().millisecondsSinceEpoch.toString();
+                FirebaseFirestore.instance.collection("Forums").doc(id).set({
+                  "title": title,
+                  "content": content,
+                  "comment": [],
+                  "Id": id,
                 });
                 Navigator.of(context).pop();
               },
@@ -170,7 +198,7 @@ class _ForumScreenState extends State<ForumScreen> {
     );
   }
 
-  void _navigateToCommentsScreen(BuildContext context, List<String> comments) {
+  void _navigateToCommentsScreen(BuildContext context, List<dynamic> comments) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => CommentsScreen(comments: comments),
@@ -180,7 +208,7 @@ class _ForumScreenState extends State<ForumScreen> {
 }
 
 class CommentsScreen extends StatelessWidget {
-  final List<String> comments;
+  final List<dynamic> comments;
 
   CommentsScreen({required this.comments});
 
@@ -194,7 +222,7 @@ class CommentsScreen extends StatelessWidget {
         itemCount: comments.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(comments[index]),
+            title: Text(comments[index].toString()),
           );
         },
       ),

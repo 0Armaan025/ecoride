@@ -1,5 +1,5 @@
 import 'package:ecoride/features/auth/registerScreen.dart';
-import 'package:ecoride/features/home/screens/home_screen.dart';
+import 'package:ecoride/features/home/screens/feature_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

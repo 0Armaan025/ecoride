@@ -37,7 +37,7 @@ class _AddRideScreenState extends State<AddRideScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green,
+      backgroundColor: const Color.fromARGB(255, 154, 218, 156),
       appBar: AppBar(
         title: Text("Add Ride Details"),
       ),
