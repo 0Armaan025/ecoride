@@ -1,5 +1,6 @@
 import 'package:ecoride/features/auth/loginScreen.dart';
 import 'package:ecoride/features/cargo_shipping/screens/add_cargo_screen.dart';
+import 'package:ecoride/features/cargo_shipping/screens/cargo_approval_screen.dart';
 import 'package:ecoride/features/home/screens/home_screen.dart';
 import 'package:ecoride/features/notifications/screens/notification_screen.dart';
 import 'package:ecoride/features/public_transport/AskFromWhereToWhere.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomeScreen(),
+      home: CargoApprovalScreen(),
     );
   }
 }
