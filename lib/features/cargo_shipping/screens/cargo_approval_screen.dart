@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 class CargoApprovalScreen extends StatelessWidget {
@@ -7,6 +8,7 @@ class CargoApprovalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green,
       appBar: AppBar(
         title: Text('Cargo Approval'),
       ),
@@ -44,30 +46,48 @@ class CargoApprovalScreen extends StatelessWidget {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Cargo Details",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+                  padding: const EdgeInsets.all(2),
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.green,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Cargo Details",
+                          style: GoogleFonts.poppins(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      Divider(
-                        color: Colors.grey,
-                        thickness: 2,
-                        height: 20,
-                      ),
-                      buildDetailRow("Shipper Email", "example@example.com"),
-                      buildDetailRow("Origin", "City X"),
-                      buildDetailRow("Destination", "City Y"),
-                      buildDetailRow("Cargo Description", "XYZ Cargo"),
-                      buildDetailRow("Cargo Weight", "500 lbs"),
-                      buildDetailRow("Professionalism Checked", "Yes"),
-                    ],
+                        Divider(
+                          color: Colors.white,
+                          thickness: 2,
+                          height: 20,
+                        ),
+                        buildDetailRow("Origin", "City X"),
+                        buildDetailRow("Destination", "City Y"),
+                        buildDetailRow("Cargo Description", "XYZ Cargo"),
+                        buildDetailRow("Cargo Weight", "500 lbs"),
+                        buildDetailRow("Professionalism Checked", "Yes"),
+                      ],
+                    ),
                   ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: Text(
+                "Cargo/Shipment Added successfully! 🔥",
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -85,15 +105,17 @@ class CargoApprovalScreen extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: GoogleFonts.lato(
               fontSize: 18,
               fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
           ),
           Text(
             value,
             style: TextStyle(
               fontSize: 12,
+              color: Colors.white,
             ),
           ),
         ],

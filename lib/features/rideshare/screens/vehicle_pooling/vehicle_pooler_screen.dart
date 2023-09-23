@@ -39,7 +39,7 @@ class _VehiclePoolerScreenState extends State<VehiclePoolerScreen> {
               ),
               Center(
                 child: Text(
-                  "Would you like to\ncarpool your vehicle?",
+                  "Would you like to\npool your vehicle?",
                   style: GoogleFonts.poppins(
                     color: Colors.blue,
                     fontSize: 26,

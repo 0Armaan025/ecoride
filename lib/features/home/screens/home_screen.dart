@@ -1,3 +1,4 @@
+import 'package:ecoride/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -67,17 +68,10 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.lightGreen,
+      drawer: buildDrawer(context),
       appBar: AppBar(
         title: Text('TransHub'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.notifications),
-            onPressed: () {
-              // Implement notification screen navigation here
-            },
-          ),
-        ],
-      ),
+    ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,121 +240,10 @@ class HomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             // Cargo shipment details
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Cargo Chain',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  Container(
-                    padding: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          spreadRadius: 2,
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Shipment Status: ${cargoShipments[0]['shipmentStatus']}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          'Current Location: ${cargoShipments[0]['currentLocation']}',
-                          style: GoogleFonts.roboto(color: Colors.white),
-                        ),
-                        Text(
-                          'Estimated Arrival: ${cargoShipments[0]['estimatedArrival']}',
-                          style: GoogleFonts.roboto(color: Colors.white),
-                        ),
-                        Text(
-                          'Cargo Type: ${cargoShipments[0]['cargoType']}',
-                          style: GoogleFonts.roboto(color: Colors.white),
-                        ),
-                        Text(
-                          'Weight: ${cargoShipments[0]['weight']}',
-                          style: GoogleFonts.roboto(color: Colors.white),
-                        ),
-                        Text(
-                          'Sender: ${cargoShipments[0]['sender']}',
-                          style: GoogleFonts.roboto(color: Colors.white),
-                        ),
-                        Text(
-                          'Receiver: ${cargoShipments[0]['receiver']}',
-                          style: GoogleFonts.roboto(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+
             SizedBox(height: 16.0),
             // Additional cargo shipments
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Additional Cargo Shipments',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8.0),
-                  Container(
-                    padding: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          spreadRadius: 2,
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 8.0,
-                        mainAxisSpacing: 8.0,
-                      ),
-                      shrinkWrap: true,
-                      itemCount: cargoShipments.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final shipment = cargoShipments[index];
-                        return _buildCargoShipmentCard(shipment);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
+
             const SizedBox(
               height: 40,
             ),
@@ -394,75 +277,6 @@ class HomeScreen extends StatelessWidget {
               title,
               style: TextStyle(fontSize: 12.0, color: Colors.white),
               textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCargoShipmentCard(Map<String, String> shipment) {
-    return SingleChildScrollView(
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 5),
-        padding: EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.circular(8.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              spreadRadius: 2,
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Shipment Status: ${shipment['shipmentStatus']}',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              'Current Location: ${shipment['currentLocation']}',
-              style: GoogleFonts.poppins(
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              'Estimated Arrival: ${shipment['estimatedArrival']}',
-              style: GoogleFonts.poppins(
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              'Cargo Type: ${shipment['cargoType']}',
-              style: GoogleFonts.poppins(
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              'Weight: ${shipment['weight']}',
-              style: GoogleFonts.poppins(
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              'Sender: ${shipment['sender']}',
-              style: GoogleFonts.poppins(
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              'Receiver: ${shipment['receiver']}',
-              style: GoogleFonts.poppins(
-                color: Colors.white,
-              ),
             ),
           ],
         ),

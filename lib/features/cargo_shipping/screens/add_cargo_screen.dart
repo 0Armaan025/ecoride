@@ -19,6 +19,7 @@ class _AddCargoScreenState extends State<AddCargoScreen> {
   final TextEditingController shipmentName = TextEditingController();
   final TextEditingController originController = TextEditingController();
   final TextEditingController destinationController = TextEditingController();
+  final TextEditingController shipperEmailController = TextEditingController();
   final TextEditingController cargoDescriptionController =
       TextEditingController();
   final TextEditingController cargoWeightController = TextEditingController();
@@ -69,6 +70,16 @@ class _AddCargoScreenState extends State<AddCargoScreen> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Origin is required';
+                  }
+                  return null;
+                },
+              ),
+              _buildTextField(
+                label: "Shipper Emal",
+                controller: shipperEmailController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Shipper Email is required';
                   }
                   return null;
                 },
@@ -146,30 +157,33 @@ class _AddCargoScreenState extends State<AddCargoScreen> {
     TextInputType? keyboardType,
     String? Function(String?)? validator,
   }) {
-    return TextFormField(
-      style: TextStyle(color: Colors.white),
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: GoogleFonts.poppins(
-          color: Colors.white,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 18.0),
+      child: TextFormField(
+        style: TextStyle(color: Colors.white),
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: GoogleFonts.poppins(
+            color: Colors.white,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Colors.white),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Colors.white),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Colors.white),
+          ),
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.white),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.white),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.white),
-        ),
+        maxLines: maxLines,
+        keyboardType: keyboardType,
+        validator: validator,
       ),
-      maxLines: maxLines,
-      keyboardType: keyboardType,
-      validator: validator,
     );
   }
 }
