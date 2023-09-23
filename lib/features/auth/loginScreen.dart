@@ -1,4 +1,6 @@
 import 'package:ecoride/features/auth/registerScreen.dart';
+import 'package:ecoride/features/home/screens/home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class loginScreen extends StatefulWidget {
@@ -59,7 +61,13 @@ class _loginScreenState extends State<loginScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      FirebaseAuth.instance.signInWithEmailAndPassword(
+                          email: emailController.text,
+                          password: passController.text);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (c) => HomeScreen()));
+                    },
                     child: Text(
                       "Let's  Gooooo!!",
                       style: TextStyle(color: Colors.white),
