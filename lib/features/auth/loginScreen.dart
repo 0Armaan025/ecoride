@@ -1,5 +1,6 @@
 import 'package:ecoride/features/auth/registerScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class loginScreen extends StatefulWidget {
   const loginScreen({super.key});
@@ -25,9 +26,9 @@ class _loginScreenState extends State<loginScreen> {
                   height: 30,
                 ),
                 Text(
-                  "Welcome Back, Navigator! 🌟🚀",
+                  "Welcome Back, Navigator!🌟 🚀",
                   style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 20,
                       color: Colors.white,
                       fontWeight: FontWeight.bold),
                 ),
@@ -38,7 +39,16 @@ class _loginScreenState extends State<loginScreen> {
                   controller: emailController,
                   style: TextStyle(color: Colors.white),
                   cursorColor: Colors.white,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
                       hintText: "Enter your energetic mail",
                       hintStyle: TextStyle(color: Colors.white)),
                 ),
@@ -50,6 +60,15 @@ class _loginScreenState extends State<loginScreen> {
                   style: TextStyle(color: Colors.white),
                   cursorColor: Colors.white,
                   decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
                       hintText: "Enter your password. shhh! dont't share",
                       hintStyle: TextStyle(color: Colors.white)),
                 ),
@@ -73,7 +92,12 @@ class _loginScreenState extends State<loginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't have an account?"),
+                    Text(
+                      "Don't have an account?",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                      ),
+                    ),
                     TextButton(
                         onPressed: () {
                           Navigator.push(

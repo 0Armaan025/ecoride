@@ -1,5 +1,6 @@
 import 'package:ecoride/features/auth/loginScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class registerScreen extends StatefulWidget {
   const registerScreen({super.key});
@@ -28,7 +29,7 @@ class _registerScreenState extends State<registerScreen> {
                 Text(
                   "Unlock Your Transit Future 🌐🔑",
                   style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 20,
                       color: Colors.white,
                       fontWeight: FontWeight.bold),
                 ),
@@ -40,6 +41,15 @@ class _registerScreenState extends State<registerScreen> {
                   style: TextStyle(color: Colors.white),
                   cursorColor: Colors.white,
                   decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
                       hintText: "Enter your aah name",
                       hintStyle: TextStyle(color: Colors.white)),
                 ),
@@ -51,6 +61,15 @@ class _registerScreenState extends State<registerScreen> {
                   style: TextStyle(color: Colors.white),
                   cursorColor: Colors.white,
                   decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
                       hintText: "Enter your energetic mail",
                       hintStyle: TextStyle(color: Colors.white)),
                 ),
@@ -62,6 +81,15 @@ class _registerScreenState extends State<registerScreen> {
                   style: TextStyle(color: Colors.white),
                   cursorColor: Colors.white,
                   decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
                       hintText: "Enter your password. shhh! dont't share",
                       hintStyle: TextStyle(color: Colors.white)),
                 ),
@@ -85,7 +113,12 @@ class _registerScreenState extends State<registerScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("already have an account?"),
+                    Text(
+                      "already have an account?",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                      ),
+                    ),
                     TextButton(
                         onPressed: () {
                           Navigator.push(context,
