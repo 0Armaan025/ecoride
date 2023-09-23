@@ -1,3 +1,5 @@
+import 'package:ecoride/features/hackathon/hackathon_home.dart';
+import 'package:ecoride/features/public_transport/AskFromWhereToWhere.dart';
 import 'package:ecoride/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -71,7 +73,7 @@ class HomeScreen extends StatelessWidget {
       drawer: buildDrawer(context),
       appBar: AppBar(
         title: Text('TransHub'),
-    ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,35 +136,37 @@ class HomeScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     _buildFeatureBox(
-                      context,
-                      'RideShare',
-                      Icons.directions_car,
-                      Colors.green, // Change to green manually
-                    ),
+                        context,
+                        'RideShare',
+                        Icons.directions_car,
+                        Colors.green, // Change to green manually
+                        () {}),
+                    _buildFeatureBox(context, 'Public Transport', Icons.train,
+                        Colors.green, // Change to green manually
+                        () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (c) => AskFromWhereToWhere()));
+                    }),
                     _buildFeatureBox(
-                      context,
-                      'Public Transport',
-                      Icons.train,
-                      Colors.green, // Change to green manually
-                    ),
+                        context,
+                        'Cargo',
+                        Icons.local_shipping,
+                        Colors.green, // Change to green manually
+                        () {}),
                     _buildFeatureBox(
-                      context,
-                      'Cargo',
-                      Icons.local_shipping,
-                      Colors.green, // Change to green manually
-                    ),
-                    _buildFeatureBox(
-                      context,
-                      'Supply Chain',
-                      Icons.business,
-                      Colors.green, // Change to green manually
-                    ),
-                    _buildFeatureBox(
-                      context,
-                      'Hackathon',
-                      Icons.code,
-                      Colors.green, // Change to green manually
-                    ),
+                        context,
+                        'Supply Chain',
+                        Icons.business,
+                        Colors.green, // Change to green manually
+                        () {}),
+                    _buildFeatureBox(context, 'Hackathon', Icons.code,
+                        Colors.green, // Change to green manually
+                        () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (c) => HackathonHome()));
+                    }),
                   ],
                 ),
               ),
@@ -253,32 +257,35 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureBox(
-      BuildContext context, String title, IconData icon, Color color) {
-    return Card(
-      elevation: 4.0,
-      color: color,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      child: Container(
-        width: 100.0,
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 32.0,
-              color: Colors.white,
-            ),
-            SizedBox(height: 4.0),
-            Text(
-              title,
-              style: TextStyle(fontSize: 12.0, color: Colors.white),
-              textAlign: TextAlign.center,
-            ),
-          ],
+  Widget _buildFeatureBox(BuildContext context, String title, IconData icon,
+      Color color, void Function()? onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        elevation: 4.0,
+        color: color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Container(
+          width: 100.0,
+          padding: EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 32.0,
+                color: Colors.white,
+              ),
+              SizedBox(height: 4.0),
+              Text(
+                title,
+                style: TextStyle(fontSize: 12.0, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );
