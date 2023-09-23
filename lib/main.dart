@@ -1,4 +1,5 @@
 import 'package:ecoride/features/cargo_shipping/screens/add_cargo_screen.dart';
+import 'package:ecoride/features/home/screens/home_screen.dart';
 import 'package:ecoride/features/notifications/screens/notification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AddCargoScreen(),
+      home: HomeScreen(),
     );
   }
 }
