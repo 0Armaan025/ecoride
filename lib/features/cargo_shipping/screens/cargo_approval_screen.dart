@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:fl_chart/fl_chart.dart';
 
-class CargoApprovalScreen extends StatefulWidget {
+class CargoApprovalScreen extends StatelessWidget {
   const CargoApprovalScreen({Key? key}) : super(key: key);
 
-  @override
-  State<CargoApprovalScreen> createState() => _CargoApprovalScreenState();
-}
-
-class _CargoApprovalScreenState extends State<CargoApprovalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,18 +19,29 @@ class _CargoApprovalScreenState extends State<CargoApprovalScreen> {
             const SizedBox(
               height: 30,
             ),
-            Lottie.asset('assets/lottie/approval_tick.json'),
+            Lottie.asset(
+              'assets/lottie/approval_tick.json',
+              height: 200, // Adjust the height as needed
+              width: 200, // Adjust the width as needed
+            ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
             Center(
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.black),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(20),
@@ -46,104 +51,52 @@ class _CargoApprovalScreenState extends State<CargoApprovalScreen> {
                       Text(
                         "Cargo Details",
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Text(
-                        "Shipper Email: example@example.com",
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
+                      Divider(
+                        color: Colors.grey,
+                        thickness: 2,
+                        height: 20,
                       ),
-                      Text(
-                        "Origin: City X",
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        "Destination: City Y",
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        "Cargo Description: XYZ Cargo",
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        "Cargo Weight: 500 lbs",
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        "Professionalism Checked: Yes",
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
+                      buildDetailRow("Shipper Email", "example@example.com"),
+                      buildDetailRow("Origin", "City X"),
+                      buildDetailRow("Destination", "City Y"),
+                      buildDetailRow("Cargo Description", "XYZ Cargo"),
+                      buildDetailRow("Cargo Weight", "500 lbs"),
+                      buildDetailRow("Professionalism Checked", "Yes"),
                     ],
                   ),
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              margin: const EdgeInsets.all(20),
-              height: 300,
-              child: LineChart(
-                LineChartData(
-                  titlesData: FlTitlesData(
-                    leftTitles: AxisTitles(
-                      axisNameSize: 16,
-                      sideTitles: const SideTitles(),
-                      drawBelowEverything: true,
-                    ),
-                    rightTitles: AxisTitles(
-                      axisNameSize: 16,
-                      sideTitles: const SideTitles(),
-                      drawBelowEverything: true,
-                    ),
-                  ),
-                  borderData: FlBorderData(
-                    show: true,
-                  ),
-                  minX: 0,
-                  maxX: 7,
-                  minY: 0,
-                  maxY: 6,
-                  gridData: FlGridData(
-                    show: true,
-                  ),
-                  lineBarsData: [
-                    LineChartBarData(
-                      spots: [
-                        FlSpot(0, 3),
-                        FlSpot(1, 1),
-                        FlSpot(2, 4),
-                        FlSpot(3, 2),
-                        FlSpot(4, 5),
-                        FlSpot(5, 4),
-                        FlSpot(6, 6),
-                      ],
-                      isCurved: true,
-                      color: Colors.blue,
-                      dotData: FlDotData(show: false),
-                      belowBarData: BarAreaData(show: false),
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget buildDetailRow(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 12,
+            ),
+          ),
+        ],
       ),
     );
   }

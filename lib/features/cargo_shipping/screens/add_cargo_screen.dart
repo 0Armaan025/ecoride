@@ -1,8 +1,7 @@
-import 'dart:io';
-
+import 'package:ecoride/features/cargo_shipping/screens/cargo_approval_screen.dart';
+import 'package:ecoride/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -17,21 +16,20 @@ class AddCargoScreen extends StatefulWidget {
 
 class _AddCargoScreenState extends State<AddCargoScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController shipperEmailControler = TextEditingController();
+  final TextEditingController shipmentName = TextEditingController();
   final TextEditingController originController = TextEditingController();
   final TextEditingController destinationController = TextEditingController();
   final TextEditingController cargoDescriptionController =
       TextEditingController();
   final TextEditingController cargoWeightController = TextEditingController();
   bool professionalismChecked = false;
-  String consentLetter = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.green,
       appBar: AppBar(
-        title: Text("Add Cargo Details"),
+        title: Text("Add Cargo and Shipment Details"),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
@@ -40,27 +38,34 @@ class _AddCargoScreenState extends State<AddCargoScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextFormField(
-                style: TextStyle(color: Colors.white),
-                controller: originController,
-                decoration: InputDecoration(
-                  labelText: "Origin",
-                  labelStyle: GoogleFonts.poppins(
-                    color: Colors.white,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
+              const SizedBox(
+                height: 20,
+              ),
+              Center(
+                  child: Text(
+                "Add Cargo and Shipment Details",
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
+              )),
+              const SizedBox(
+                height: 20,
+              ),
+              _buildTextField(
+                label: "Shipment/Cargo Name",
+                controller: shipmentName,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Shipment/Cargo Name is required';
+                  }
+                  return null;
+                },
+              ),
+              _buildTextField(
+                label: "Origin",
+                controller: originController,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Origin is required';
@@ -69,27 +74,9 @@ class _AddCargoScreenState extends State<AddCargoScreen> {
                 },
               ),
               SizedBox(height: 10),
-              TextFormField(
-                style: TextStyle(color: Colors.white),
+              _buildTextField(
+                label: "Destination",
                 controller: destinationController,
-                decoration: InputDecoration(
-                  labelText: "Destination",
-                  labelStyle: GoogleFonts.poppins(
-                    color: Colors.white,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Destination is required';
@@ -98,85 +85,19 @@ class _AddCargoScreenState extends State<AddCargoScreen> {
                 },
               ),
               SizedBox(height: 10),
-              TextFormField(
+              _buildTextField(
+                label: "Cargo Description",
                 controller: cargoDescriptionController,
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  labelText: "Cargo Description",
-                  labelStyle: GoogleFonts.poppins(
-                    color: Colors.white,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                ),
                 maxLines: 3,
               ),
               SizedBox(height: 10),
-              TextFormField(
+              _buildTextField(
+                label: "Cargo Weight (in kg)",
                 controller: cargoWeightController,
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  labelText: "Cargo Weight (in kg)",
-                  labelStyle: GoogleFonts.poppins(
-                    color: Colors.white,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Cargo Weight is required';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: shipperEmailControler,
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  labelText: "Shipper email",
-                  labelStyle: GoogleFonts.poppins(
-                    color: Colors.white,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'the shipper email is required';
                   }
                   return null;
                 },
@@ -205,8 +126,7 @@ class _AddCargoScreenState extends State<AddCargoScreen> {
                 onPressed: () {
                   // Validate form fields
                   if (_formKey.currentState!.validate()) {
-                    // Form is valid, proceed with submission
-                    // You can submit the data to your backend or perform other actions here
+                    moveScreen(context, CargoApprovalScreen());
                   }
                 },
                 child: Text("Submit"),
@@ -216,6 +136,40 @@ class _AddCargoScreenState extends State<AddCargoScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTextField({
+    required String label,
+    required TextEditingController controller,
+    int? maxLines,
+    TextInputType? keyboardType,
+    String? Function(String?)? validator,
+  }) {
+    return TextFormField(
+      style: TextStyle(color: Colors.white),
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: GoogleFonts.poppins(
+          color: Colors.white,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.white),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.white),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.white),
+        ),
+      ),
+      maxLines: maxLines,
+      keyboardType: keyboardType,
+      validator: validator,
     );
   }
 }
