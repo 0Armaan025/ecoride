@@ -1,5 +1,6 @@
 import 'package:ecoride/features/auth/registerScreen.dart';
 import 'package:ecoride/features/home/screens/feature_screen.dart';
+import 'package:ecoride/features/home/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -84,8 +85,10 @@ class _loginScreenState extends State<loginScreen> {
                       FirebaseAuth.instance.signInWithEmailAndPassword(
                           email: emailController.text,
                           password: passController.text);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (c) => HomeScreen()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (c) => HomeScreenNavigator()));
                     },
                     child: Text(
                       "Let's  Gooooo!!",
