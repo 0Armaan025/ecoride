@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecoride/features/cargo_shipping/screens/cargo_approval_screen.dart';
 import 'package:ecoride/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -141,6 +142,7 @@ class _AddCargoScreenState extends State<AddCargoScreen> {
                   // Validate form fields
                   if (_formKey.currentState!.validate()) {
                     CargoModel cargoModel = CargoModel(
+                      cargoID: DateTime.now().millisecondsSinceEpoch.toString(),
                       cargoDescription: cargoDescriptionController.text,
                       cargoWeight: cargoWeightController.text,
                       cargoDestination: destinationController.text,
@@ -148,11 +150,14 @@ class _AddCargoScreenState extends State<AddCargoScreen> {
                       professionalismCheck: professionalismChecked.toString(),
                       cargoShipperEmail: shipperEmailController.text,
                       cargoName: shipmentName.text,
-                      cargoShipperUid:
-                          FirebaseAuth.instance.currentUser?.uid ?? '',
+                      cargoShipperUid: FirebaseAuth.instance.currentUser!.uid,
                     );
-
-                    moveScreen(context, CargoApprovalScreen());
+                    FirebaseFirestore.instance
+                        .collection("Cargo")
+                        .doc(cargoModel.cargoID)
+                        .set(cargoModel.toMap());
+                    Navigator.pop(context);
+                    // moveScreen(context, CargoApprovalScreen());÷
                   }
                 },
                 child: Text("Submit"),

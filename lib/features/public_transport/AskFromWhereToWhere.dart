@@ -70,14 +70,12 @@ class _AskFromWhereToWhereState extends State<AskFromWhereToWhere> {
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (c) => GetTransport(
-                      startLocation: fromController.text,
-                      endLocation: toController.text,
-                    ),
-                  ),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (c) => GetTransport(
+                              startLocation: fromController.text,
+                              endLocation: toController.text,
+                            )));
               },
               child: Padding(
                 padding: const EdgeInsets.only(left: 18.0, right: 20),

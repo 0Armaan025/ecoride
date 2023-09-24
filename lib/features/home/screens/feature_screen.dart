@@ -1,5 +1,4 @@
-
-
+import 'package:ecoride/features/cargo_shipping/cargo_listings_screen.dart';
 import 'package:ecoride/features/hackathon/hackathon_home.dart';
 import 'package:ecoride/features/public_transport/AskFromWhereToWhere.dart';
 import 'package:ecoride/features/rideshare/screens/vehicle_pooling/rides_screen.dart';
@@ -162,10 +161,13 @@ class HomeScreen extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (c) => AskFromWhereToWhere()));
                     }),
+                    _buildFeatureBox(context, 'Cargo', Icons.local_shipping,
+                        Colors.green, // Change to green manually
+                        () {}),
                     _buildFeatureBox(
                         context,
-                        'Cargo',
-                        Icons.local_shipping,
+                        'Supply Chain',
+                        Icons.business,
                         Colors.green, // Change to green manually
                         () {}),
                     _buildFeatureBox(context, 'Hackathon', Icons.code,

@@ -382,3 +382,4 @@ class _CreateNewHackathonState extends State<CreateNewHackathon> {
     Navigator.pop(context);
   }
 }
+

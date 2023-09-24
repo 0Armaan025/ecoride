@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecoride/features/hackathon/create_hacathon.dart';
 import 'package:ecoride/features/hackathon/create_hackathon.dart';
+import 'package:ecoride/features/hackathon/hackathon_detail.dart';
 import 'package:ecoride/models/hackathon.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HackathonHome extends StatefulWidget {
-  const   HackathonHome({Key? key}) : super(key: key);
+  const HackathonHome({Key? key}) : super(key: key);
 
   @override
   State<HackathonHome> createState() => _HackathonHomeState();
@@ -49,10 +51,9 @@ class _HackathonHomeState extends State<HackathonHome> {
                           Text(
                             hackathon.hackName,
                             style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
                           ),
                           SizedBox(
                             height: 20,

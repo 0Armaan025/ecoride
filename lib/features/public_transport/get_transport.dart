@@ -3,41 +3,26 @@ import 'dart:core';
 
 import 'package:ecoride/constants/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 Future<String> useChatAPI(String prompt) async {
   print(prompt);
   final res = await http.post(
-    Uri.parse("https://api.openai.com/v1/chat/completions"),
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer ${openAIApi}"
-    },
-    body: jsonEncode({
-      "model": "gpt-3.5-turbo",
-      "messages": [
-        {"role": "user", "content": "$prompt"}
-      ],
-      "temperature": 0.7
-    }),
-  );
+      Uri.parse("https://api.openai.com/v1/chat/completions"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${openAIApi}"
+      },
+      body: jsonEncode({
+        "model": "gpt-3.5-turbo",
+        "messages": [
+          {"role": "user", "content": "$prompt"}
+        ],
+        "temperature": 0.7
+      }));
   print(res.body);
 
-  // Parse the JSON response
-  final Map<String, dynamic> responseMap = json.decode(res.body);
-
-  // Access the "choices" array
-  final List<dynamic> choices = responseMap["choices"];
-
-  // Extract the content from the first choice
-  if (choices.isNotEmpty) {
-    final Map<String, dynamic> firstChoice = choices[0];
-    final String content = firstChoice["message"]["content"];
-    return content;
-  } else {
-    return ""; // Handle the case when there are no choices
-  }
+  return res.body;
 }
 
 class GetTransport extends StatefulWidget {
@@ -50,53 +35,51 @@ class GetTransport extends StatefulWidget {
 }
 
 class _GetTransportState extends State<GetTransport> {
-  String msg = "";
+  Map<String, dynamic>? data;
+  bool loaded = false;
+  void startSearching() async {
+    String body = await useChatAPI(
+        "Give me public transport route between ${widget.startLocation} to ${widget.endLocation} you can include autricshaw, cycle, walking, train , bus , metro etc .");
+    print(jsonEncode(data));
+    setState(() {
+      loaded = true;
+      data = jsonDecode(body);
+    });
+  }
 
   @override
   void initState() {
     // TODO: implement initState
-    getData();
+    startSearching();
     super.initState();
-  }
-
-  void getData() async {
-    msg = await useChatAPI(
-        "Give me public transport route between ${widget.startLocation} to ${widget.endLocation} you can include autricshaw, cycle, walking, train , bus , metro etc and also add some emojis ");
-    print('response = $msg');
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 50,
-            ),
-            Center(
-              child: Text(
-                "The Overview: ",
-                style: GoogleFonts.poppins(
-                  color: Colors.green,
-                  fontSize: 32,
+      body: loaded
+          ? SingleChildScrollView(
+              child: Column(children: [
+                Text(
+                  "This is your way 🚶🏻‍♂️",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(data!["choices"][0]["message"]["content"]),
+              ]),
+            )
+          : Center(
               child: Text(
-                msg,
-                style: GoogleFonts.poppins(),
+                "Please wait!! ⏳\nFinding Best Way",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 22,
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold),
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 }
