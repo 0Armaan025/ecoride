@@ -184,29 +184,29 @@ class _CreateHackathonState extends State<CreateHackathon> {
                     shrinkWrap: true,
                     itemCount: prizes.length,
                     itemBuilder: (context, index) {
-                      TextEditingController textEditingController =
-                          TextEditingController();
                       String key = prizes.keys.elementAt(index);
+                      TextEditingController textEditingController =
+                          TextEditingController(text: prizes[key]);
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Row(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Expanded(
-                                child: Text(
+                            Text(
                               key,
                               style: TextStyle(fontSize: 20),
-                            )),
-                            Expanded(
-                              child: ListTile(
-                                title: TextField(
-                                  controller: textEditingController,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8))),
-                                    hintText: "enter prize",
-                                  ),
+                            ),
+                            ListTile(
+                              title: TextField(
+                                controller: textEditingController,
+                                onChanged: (value) {
+                                  prizes[key] = value;
+                                },
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8))),
+                                  hintText: "enter prize",
                                 ),
                               ),
                             )
@@ -261,37 +261,37 @@ class _CreateHackathonState extends State<CreateHackathon> {
                       backgroundColor: Colors.blueAccent,
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      Reference ref = FirebaseStorage.instance.ref(
-                          "hackyImage/${DateTime.now().millisecondsSinceEpoch}.png");
-                      await ref.putFile(image!);
-                      String downloadURL = await ref.getDownloadURL();
-                      FirebaseFirestore.instance
-                          .collection("hackathons")
-                          .doc(DateTime.now().microsecondsSinceEpoch.toString())
-                          .set({
-                        "hackName": hackNameController.text,
-                        "startDate": startDateController,
-                        "endDate": endDateController,
-                        "image": downloadURL,
-                        "description": descController,
-                        "hasPrizes": hasprices,
-                        "prizes": prizes,
-                      });
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      "Submit",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  ),
                 ],
               )
             else
               Container(),
+            ElevatedButton(
+              onPressed: () async {
+                Reference ref = FirebaseStorage.instance.ref(
+                    "hackyImage/${DateTime.now().millisecondsSinceEpoch}.png");
+                await ref.putFile(image!);
+                String downloadURL = await ref.getDownloadURL();
+                FirebaseFirestore.instance
+                    .collection("hackathons")
+                    .doc(DateTime.now().microsecondsSinceEpoch.toString())
+                    .set({
+                  "hackName": hackNameController.text,
+                  "startDate": startDateController.text,
+                  "endDate": endDateController.text,
+                  "image": downloadURL,
+                  "description": descController.text,
+                  "hasPrizes": hasprices,
+                  "prizes": prizes,
+                }).then((value) {
+                  Navigator.pop(context);
+                });
+              },
+              child: Text(
+                "Submit",
+                style: TextStyle(color: Colors.white),
+              ),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            ),
           ]),
         ),
       ),

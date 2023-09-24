@@ -10,7 +10,9 @@ class CargoModel {
   final String cargoDescription;
   final String cargoWeight;
   final String professionalismCheck;
+  final String cargoID;
   CargoModel({
+    required this.cargoID,
     required this.cargoName,
     required this.cargoOrigin,
     required this.cargoShipperEmail,
@@ -22,6 +24,7 @@ class CargoModel {
   });
 
   CargoModel copyWith({
+    String? cargoID,
     String? cargoName,
     String? cargoOrigin,
     String? cargoShipperEmail,
@@ -32,6 +35,7 @@ class CargoModel {
     String? professionalismCheck,
   }) {
     return CargoModel(
+      cargoID: cargoID ?? this.cargoID,
       cargoName: cargoName ?? this.cargoName,
       cargoOrigin: cargoOrigin ?? this.cargoOrigin,
       cargoShipperEmail: cargoShipperEmail ?? this.cargoShipperEmail,
@@ -45,6 +49,7 @@ class CargoModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      "cargoID": cargoID,
       'cargoName': cargoName,
       'cargoOrigin': cargoOrigin,
       'cargoShipperEmail': cargoShipperEmail,
@@ -58,6 +63,7 @@ class CargoModel {
 
   factory CargoModel.fromMap(Map<String, dynamic> map) {
     return CargoModel(
+      cargoID: map["cargoID"],
       cargoName: map['cargoName'] as String,
       cargoOrigin: map['cargoOrigin'] as String,
       cargoShipperEmail: map['cargoShipperEmail'] as String,

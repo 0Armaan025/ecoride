@@ -5,7 +5,7 @@ class Hackathon {
   String image;
   String description;
   bool hasPrizes;
-  Map<String, String> prizes;
+  Map<String, dynamic> prizes;
   Hackathon({
     required this.hackName,
     required this.startDate,

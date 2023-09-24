@@ -47,13 +47,13 @@ class _AskFromWhereToWhereState extends State<AskFromWhereToWhere> {
             ),
             ElevatedButton(
               onPressed: () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (c) => GetTransport(
-                //               startLocation: fromController.text,
-                //               endLocation: toController.text,
-                //             )));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (c) => GetTransport(
+                              startLocation: fromController.text,
+                              endLocation: toController.text,
+                            )));
               },
               child: Text("Let's gooo!!",
                   style: TextStyle(

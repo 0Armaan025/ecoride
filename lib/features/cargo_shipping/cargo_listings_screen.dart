@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecoride/features/auth/models/cargo.dart';
 import 'package:ecoride/features/cargo_shipping/screens/add_cargo_screen.dart';
 import 'package:ecoride/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +12,6 @@ class CargoListingsScreen extends StatefulWidget {
 }
 
 class _CargoListingsScreenState extends State<CargoListingsScreen> {
-  final List<String> cargoListings =
-      List.generate(2, (index) => 'Cargo Listing $index');
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,14 +26,34 @@ class _CargoListingsScreenState extends State<CargoListingsScreen> {
       appBar: AppBar(
         title: Text("Cargo Listings"),
       ),
-      body: ListView.builder(
-        itemCount: cargoListings.length,
-        itemBuilder: (context, index) {
-          final cargoListing = cargoListings[index];
-          return AnimatedCargoCard(
-            cargoListing: cargoListing,
-            delay: index * 0.1,
-          );
+      // body: ListView.builder(
+
+      //   itemCount: cargoListings.length,
+      //   itemBuilder: (context, index) {
+      //     final cargoListing = cargoListings[index];
+      //     return AnimatedCargoCard(
+      //       cargoListing: cargoListing,
+      //       delay: index * 0.1,
+      //     );
+      //   },
+      // ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection("Cargo").snapshots(),
+        builder: (context, snapshot) {
+          return snapshot.hasData
+              ? ListView.builder(
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    CargoModel cargoModel = CargoModel.fromMap(
+                        snapshot.data!.docs[index].data()
+                            as Map<String, dynamic>);
+                    return AnimatedCargoCard(
+                        cargoListing: index.toString(),
+                        delay: 1,
+                        cargoModel: cargoModel);
+                  },
+                )
+              : Container();
         },
       ),
     );
@@ -44,8 +63,11 @@ class _CargoListingsScreenState extends State<CargoListingsScreen> {
 class AnimatedCargoCard extends StatefulWidget {
   final String cargoListing;
   final double delay;
-
-  AnimatedCargoCard({required this.cargoListing, required this.delay});
+  final CargoModel cargoModel;
+  AnimatedCargoCard(
+      {required this.cargoListing,
+      required this.delay,
+      required this.cargoModel});
 
   @override
   _AnimatedCargoCardState createState() => _AnimatedCargoCardState();
@@ -88,8 +110,10 @@ class _AnimatedCargoCardState extends State<AnimatedCargoCard>
         // Navigate to the cargo details screen on card tap
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) =>
-                CargoDetailsScreen(cargoListing: widget.cargoListing),
+            builder: (context) => CargoDetailsScreen(
+              cargoListing: widget.cargoListing,
+              cargoModel: widget.cargoModel,
+            ),
           ),
         );
       },
@@ -102,7 +126,10 @@ class _AnimatedCargoCardState extends State<AnimatedCargoCard>
               opacity: _opacity.value,
               child: Transform.translate(
                 offset: Offset(0.0, 50.0 * (1 - _opacity.value)),
-                child: CargoCard(cargoListing: widget.cargoListing),
+                child: CargoCard(
+                  cargoListing: widget.cargoListing,
+                  cargoModel: widget.cargoModel,
+                ),
               ),
             );
           },
@@ -114,8 +141,11 @@ class _AnimatedCargoCardState extends State<AnimatedCargoCard>
 
 class CargoCard extends StatelessWidget {
   final String cargoListing;
-
-  CargoCard({required this.cargoListing});
+  final CargoModel cargoModel;
+  CargoCard({
+    required this.cargoListing,
+    required this.cargoModel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -136,15 +166,15 @@ class CargoCard extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Text(
-              "Origin: New York",
+              "Origin: ${cargoModel.cargoOrigin}",
               style: TextStyle(fontSize: 16),
             ),
             Text(
-              "Destination: Los Angeles",
+              "Destination: ${cargoModel.cargoDestination}",
               style: TextStyle(fontSize: 16),
             ),
             Text(
-              "Cargo max Weight: 500 kg",
+              "Cargo max Weight: ${cargoModel.cargoWeight} kg",
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 8),
@@ -153,8 +183,10 @@ class CargoCard extends StatelessWidget {
                 // Handle button tap
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) =>
-                        CargoDetailsScreen(cargoListing: cargoListing),
+                    builder: (context) => CargoDetailsScreen(
+                      cargoListing: cargoListing,
+                      cargoModel: this.cargoModel,
+                    ),
                   ),
                 );
               },
@@ -169,8 +201,8 @@ class CargoCard extends StatelessWidget {
 
 class CargoDetailsScreen extends StatelessWidget {
   final String cargoListing;
-
-  CargoDetailsScreen({required this.cargoListing});
+  final CargoModel cargoModel;
+  CargoDetailsScreen({required this.cargoListing, required this.cargoModel});
 
   @override
   Widget build(BuildContext context) {
@@ -217,7 +249,7 @@ class CargoDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       subtitle: Text(
-                        "New York",
+                        "${cargoModel.cargoOrigin}",
                         style: TextStyle(
                           fontSize: 16.0,
                         ),
@@ -233,7 +265,7 @@ class CargoDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       subtitle: Text(
-                        "Los Angeles",
+                        "${cargoModel.cargoDestination}",
                         style: TextStyle(
                           fontSize: 16.0,
                         ),
@@ -249,7 +281,7 @@ class CargoDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       subtitle: Text(
-                        "500 kg",
+                        "${cargoModel.cargoWeight} kg",
                         style: TextStyle(
                           fontSize: 16.0,
                         ),
