@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../widgets/notification_widget.dart';// Import the NotificationWidget
+import '../widgets/notification_widget.dart'; // Import the NotificationWidget
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -14,27 +15,30 @@ class NotificationScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Notifications"),
       ),
-      body: ListView(
-        padding: EdgeInsets.all(16),
-        children: [
-          // Example notifications using NotificationWidget
-          NotificationWidget(
-            userName: "John Doe",
-            action: "Assigned a role",
-            time: "2 hours ago",
-          ),
-          NotificationWidget(
-            userName: "Alice Smith",
-            action: "Sent you a message",
-            time: "3 hours ago",
-          ),
-          NotificationWidget(
-            userName: "Bob Johnson",
-            action: "Liked your post",
-            time: "5 hours ago",
-          ),
-          // Add more NotificationWidgets as needed
-        ],
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('alerts').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return CircularProgressIndicator();
+          }
+
+          final documents = snapshot.data!.docs;
+
+          return ListView(
+            padding: EdgeInsets.all(16),
+            children: documents.map((doc) {
+              final userName = doc['alertTitle'] as String;
+              final action = doc['alertDescription'] as String;
+              final time = doc['alertTime'] as String;
+
+              return NotificationWidget(
+                userName: userName,
+                action: action,
+                time: time,
+              );
+            }).toList(),
+          );
+        },
       ),
     );
   }

@@ -31,12 +31,13 @@ class NotificationWidget extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
+                  color: Colors.black,
                 ),
               ),
               SizedBox(height: 4),
               Text(
                 action,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, color: Colors.black),
               ),
             ],
           ),
@@ -44,7 +45,7 @@ class NotificationWidget extends StatelessWidget {
             time,
             style: TextStyle(
               color: Colors.grey,
-              fontSize: 14,
+              fontSize: 9,
             ),
           ),
         ],

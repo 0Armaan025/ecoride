@@ -1,3 +1,4 @@
+import 'package:ecoride/features/home/screens/feature_screen.dart';
 import 'package:ecoride/features/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -55,8 +56,7 @@ Drawer buildDrawer(BuildContext context) {
           title: Text("Home",
               style: TextStyle(color: Colors.green)), // Dark green text color
           onTap: () {
-            // Navigate to the home screen
-            Navigator.pop(context); // Close the drawer
+            moveScreen(context, HomeScreen());
           },
         ),
         ListTile(

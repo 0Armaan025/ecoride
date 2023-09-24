@@ -101,10 +101,12 @@ class CreateAlertScreen extends StatelessWidget {
         child: Column(
           children: [
             TextFormField(
+              controller: titleController,
               decoration: InputDecoration(labelText: 'Alert Title'),
             ),
             SizedBox(height: 20.0),
             TextFormField(
+              controller: descriptionController,
               decoration: InputDecoration(labelText: 'Alert Description'),
               maxLines: 5,
             ),
@@ -121,7 +123,7 @@ class CreateAlertScreen extends StatelessWidget {
                     .doc(model.alertTime + model.alertTitle)
                     .set(model.toMap());
 
-              moveScreen(context, HomeScreen());
+                moveScreen(context, HomeScreen());
               },
               child: Text(
                 'Send Alert',

@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomeScreenNavigator(),
+      home: AdminScreen(),
       //home: FirebaseAuth.instance.currentUser == null
       // ? loginScreen()
       //: HomeScreenNavigator(),
