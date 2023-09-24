@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecoride/features/hackathon/create_hacathon.dart';
+import 'package:ecoride/features/hackathon/create_hackathon.dart';
 import 'package:ecoride/models/hackathon.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HackathonHome extends StatefulWidget {
-  const HackathonHome({super.key});
+  const HackathonHome({Key? key}) : super(key: key);
 
   @override
   State<HackathonHome> createState() => _HackathonHomeState();
@@ -16,20 +16,12 @@ class _HackathonHomeState extends State<HackathonHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.green[700], // Green app bar
         title: Text(
           "Eco Hacky",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        actions: [
-          TextButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (c) => CreateHackathon()));
-              },
-              child: Text("Create hackathon")),
-        ],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("hackathons").snapshots(),
@@ -39,8 +31,8 @@ class _HackathonHomeState extends State<HackathonHome> {
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     Hackathon hackathon = Hackathon.fromMap(
-                        snapshot.data!.docs[index].data()
-                            as Map<String, dynamic>);
+                      snapshot.data!.docs[index].data() as Map<String, dynamic>,
+                    );
                     return Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
@@ -57,9 +49,10 @@ class _HackathonHomeState extends State<HackathonHome> {
                           Text(
                             hackathon.hackName,
                             style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
                           SizedBox(
                             height: 20,
@@ -73,9 +66,21 @@ class _HackathonHomeState extends State<HackathonHome> {
                     );
                   },
                 )
-              : Container();
+              : Center(
+                  child: CircularProgressIndicator()); // Show loading indicator
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (c) => CreateNewHackathon()),
+          );
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Colors.green[700], // Green button
+      ),
+      backgroundColor: Colors.green[100], // Background color
     );
   }
 }

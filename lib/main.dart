@@ -36,9 +36,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: FirebaseAuth.instance.currentUser == null
-          ? loginScreen()
-          : HomeScreenNavigator(),
+      home: HomeScreenNavigator(),
+      //home: FirebaseAuth.instance.currentUser == null
+      // ? loginScreen()
+      //: HomeScreenNavigator(),
       // home: HomeScreenNavigator(),
     );
   }

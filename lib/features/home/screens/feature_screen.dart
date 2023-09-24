@@ -1,6 +1,7 @@
 import 'package:ecoride/features/hackathon/hackathon_home.dart';
 import 'package:ecoride/features/public_transport/AskFromWhereToWhere.dart';
 import 'package:ecoride/features/rideshare/screens/vehicle_pooling/rides_screen.dart';
+import 'package:ecoride/models/hackathon.dart';
 import 'package:ecoride/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -154,12 +155,6 @@ class HomeScreen extends StatelessWidget {
                         context,
                         'Cargo',
                         Icons.local_shipping,
-                        Colors.green, // Change to green manually
-                        () {}),
-                    _buildFeatureBox(
-                        context,
-                        'Supply Chain',
-                        Icons.business,
                         Colors.green, // Change to green manually
                         () {}),
                     _buildFeatureBox(context, 'Hackathon', Icons.code,
