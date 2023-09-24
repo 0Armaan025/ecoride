@@ -3,6 +3,8 @@ import 'package:ecoride/features/cargo_shipping/cargo_listings_screen.dart';
 import 'package:ecoride/features/cargo_shipping/screens/add_cargo_screen.dart';
 import 'package:ecoride/features/cargo_shipping/screens/cargo_approval_screen.dart';
 import 'package:ecoride/features/community/screens/forum_screen.dart';
+import 'package:ecoride/features/hackathon/create_hackathon.dart';
+import 'package:ecoride/features/hackathon/hackathon_home.dart';
 import 'package:ecoride/features/home/screens/home_screen.dart';
 import 'package:ecoride/features/notifications/screens/notification_screen.dart';
 import 'package:ecoride/features/public_transport/AskFromWhereToWhere.dart';
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: RidesScreen(),
+      home: HackathonHome(),
     );
   }
 }
