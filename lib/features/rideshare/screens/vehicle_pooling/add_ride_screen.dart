@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,7 +22,7 @@ class _AddRideScreenState extends State<AddRideScreen> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController carModelController = TextEditingController();
   TextEditingController diseasesController = TextEditingController();
-
+  TextEditingController totalPeople = TextEditingController();
   bool isMaskRequired = false;
   File? selectedImage;
 
@@ -127,6 +130,28 @@ class _AddRideScreenState extends State<AddRideScreen> {
               ),
             ),
             SizedBox(height: 10),
+            TextFormField(
+              controller: carModelController,
+              decoration: InputDecoration(
+                labelText: "Total number of people who can sit",
+                labelStyle: GoogleFonts.poppins(
+                  color: Colors.white,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
             Row(
               children: [
                 Text(
@@ -191,17 +216,30 @@ class _AddRideScreenState extends State<AddRideScreen> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Handle form submission here
                 String name = nameController.text;
                 String description = descriptionController.text;
                 String carModel = carModelController.text;
                 bool maskRequired = isMaskRequired;
                 String diseases = diseasesController.text;
-
+                String id = DateTime.now().millisecondsSinceEpoch.toString();
+                Reference ref =
+                    FirebaseStorage.instance.ref("rideImage/${id}.png");
+                await ref.putFile(selectedImage!);
+                String downloadURL = await ref.getDownloadURL();
                 // Use the selectedImage file for uploading the image
                 // and handle other form data as needed
-
+                FirebaseFirestore.instance.collection("Rides").doc(id).set({
+                  "name": name,
+                  "description": description,
+                  "carModel": carModel,
+                  "maxPeople": int.parse(totalPeople.text),
+                  "maskRequired": maskRequired,
+                  "disease": diseases,
+                  "ID": id,
+                  "publishedBy": FirebaseAuth.instance.currentUser!.uid,
+                });
                 // Reset form fields and selectedImage if needed
                 nameController.clear();
                 descriptionController.clear();
