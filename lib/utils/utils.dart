@@ -1,3 +1,4 @@
+import 'package:ecoride/features/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -65,7 +66,16 @@ Drawer buildDrawer(BuildContext context) {
               style: TextStyle(color: Colors.green)), // Dark green text color
           onTap: () {
             // Navigate to the profile screen
-            Navigator.pop(context); // Close the drawer
+            moveScreen(
+                context,
+                ProfileScreen(
+                  email: 'armaan33000@gmail.com',
+                  hackathonsAttended: 2,
+                  name: 'Armaan',
+                  stars: 5.2,
+                  vehiclesPooled: 10,
+                  timesBeenCargoShipper: 2,
+                ));
           },
         ),
         ListTile(
@@ -177,13 +187,11 @@ void showSOSConfirmationDialog(BuildContext context) {
                         onPressed: () async {
                           // Handle SOS action here
                           Navigator.pop(context); // Close the dialog
-                          const phoneNumber = '7837433000';
-                          final url = 'tel:$phoneNumber';
-
-                          if (await canLaunch(url)) {
-                            await launch(url);
+                          Uri phoneno = Uri.parse('tel:+911');
+                          if (await launchUrl(phoneno)) {
+                            //dialer opened
                           } else {
-                            throw 'Could not launch $url';
+                            //dailer is not opened
                           }
                         },
                         child: Text(

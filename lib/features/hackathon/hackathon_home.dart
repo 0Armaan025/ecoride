@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HackathonHome extends StatefulWidget {
-  const HackathonHome({Key? key}) : super(key: key);
+  const   HackathonHome({Key? key}) : super(key: key);
 
   @override
   State<HackathonHome> createState() => _HackathonHomeState();
