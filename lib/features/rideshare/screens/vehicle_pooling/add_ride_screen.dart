@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecoride/features/auth/models/ride.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,7 @@ class _AddRideScreenState extends State<AddRideScreen> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController carModelController = TextEditingController();
   TextEditingController diseasesController = TextEditingController();
-
+  TextEditingController totalPeople = TextEditingController();
   bool isMaskRequired = false;
   File? selectedImage;
 
@@ -41,7 +40,7 @@ class _AddRideScreenState extends State<AddRideScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green,
+      backgroundColor: const Color.fromARGB(255, 154, 218, 156),
       appBar: AppBar(
         title: Text("Add Ride Details"),
       ),
@@ -109,6 +108,28 @@ class _AddRideScreenState extends State<AddRideScreen> {
               maxLines: 3,
             ),
             SizedBox(height: 10),
+            SizedBox(height: 10),
+            TextFormField(
+              controller: carModelController,
+              decoration: InputDecoration(
+                labelText: "Total number of people who can sit",
+                labelStyle: GoogleFonts.poppins(
+                  color: Colors.white,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+              ),
+            ),
             SizedBox(height: 10),
             Row(
               children: [
@@ -181,7 +202,24 @@ class _AddRideScreenState extends State<AddRideScreen> {
                 String carModel = carModelController.text;
                 bool maskRequired = isMaskRequired;
                 String diseases = diseasesController.text;
-
+                String id = DateTime.now().millisecondsSinceEpoch.toString();
+                Reference ref =
+                    FirebaseStorage.instance.ref("rideImage/${id}.png");
+                await ref.putFile(selectedImage!);
+                String downloadURL = await ref.getDownloadURL();
+                // Use the selectedImage file for uploading the image
+                // and handle other form data as needed
+                FirebaseFirestore.instance.collection("Rides").doc(id).set({
+                  "name": name,
+                  "description": description,
+                  "carModel": carModel,
+                  "maxPeople": int.parse(totalPeople.text),
+                  "maskRequired": maskRequired,
+                  "disease": diseases,
+                  "ID": id,
+                  "publishedBy": FirebaseAuth.instance.currentUser!.uid,
+                });
+                // Reset form fields and selectedImage if needed
                 nameController.clear();
                 descriptionController.clear();
                 carModelController.clear();
@@ -194,27 +232,8 @@ class _AddRideScreenState extends State<AddRideScreen> {
 
                 //making a model
                 //storing the image
-                Reference ref = FirebaseStorage.instance.ref(
-                    "vehiclesImage/${DateTime.now().millisecondsSinceEpoch}.png");
-                await ref.putFile(selectedImage!);
-                String downloadURL = await ref.getDownloadURL();
-
-                // constructing a model
-                RideModel model = RideModel(
-                    rideName: nameController.text.toLowerCase(),
-                    rideDescription: descriptionController.text,
-                    rideUploaderUid:
-                        FirebaseAuth.instance.currentUser?.uid ?? '',
-                    vehicleImage: downloadURL,
-                    vehicleModel: carModelController.text,
-                    isMaskRequired: maskRequired.toString());
 
                 //storing into firestore
-
-                FirebaseFirestore.instance
-                    .collection('rides')
-                    .doc(nameController.text.toLowerCase())
-                    .set(model.toMap());
 
                 diseasesController.clear();
               },
