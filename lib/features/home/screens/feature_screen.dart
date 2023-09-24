@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:ecoride/features/hackathon/hackathon_home.dart';
 import 'package:ecoride/features/public_transport/AskFromWhereToWhere.dart';
 import 'package:ecoride/features/rideshare/screens/vehicle_pooling/rides_screen.dart';
@@ -8,6 +10,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../../notifications/screens/notification_screen.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -75,6 +79,13 @@ class HomeScreen extends StatelessWidget {
       drawer: buildDrawer(context),
       appBar: AppBar(
         title: Text('TransHub'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                moveScreen(context, NotificationScreen());
+              },
+              icon: Icon(Icons.notifications)),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

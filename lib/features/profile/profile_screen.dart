@@ -1,166 +1,127 @@
+import 'package:ecoride/features/calculator/calculator_screen.dart';
+import 'package:ecoride/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ProfileScreen extends StatelessWidget {
   final String name;
-  final String email;
-  final int hackathonsAttended;
-  final int vehiclesPooled;
-  final int timesBeenCargoShipper;
   final double stars;
 
-  ProfileScreen({
-    required this.name,
-    required this.email,
-    required this.hackathonsAttended,
-    required this.vehiclesPooled,
-    required this.timesBeenCargoShipper,
-    required this.stars,
-  });
+  ProfileScreen({required this.name, required this.stars});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Profile',
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.green[700],
-      ),
-      backgroundColor: Colors.green[700],
-      body: SingleChildScrollView(
+      appBar: AppBar(title: Text("Profile")),
+      drawer: buildDrawer(context),
+      backgroundColor: Colors.green, // Background color
+      body: SafeArea(
         child: Column(
-          children: [
-            Container(
-              height: 250,
-              decoration: BoxDecoration(
-                color: Colors.green[800],
-                image: DecorationImage(
-                  image: NetworkImage(
-                    'https://source.unsplash.com/random',
-                  ),
-                  fit: BoxFit.cover,
-                ),
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(height: 20),
+            Text(
+              'Profile',
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Colors.green, // Futuristic green color
               ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 10),
-                    Text(
-                      name,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Text(
-                      email,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
+            ),
+            SizedBox(height: 20),
+            SizedBox(height: 20),
+            Text(
+              name,
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.white, // White text color
+              ),
+            ),
+            SizedBox(height: 20),
+            Text(
+              FirebaseAuth.instance.currentUser?.email ??
+                  'the email is supposed to be here.',
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.white, // White text color
+              ),
+            ),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RatingBarIndicator(
+                  rating: stars,
+                  itemBuilder: (context, index) => Icon(
+                    Icons.star,
+                    color: Colors.green, // Futuristic green color
+                  ),
+                  itemCount: 5,
+                  itemSize: 30.0,
+                  direction: Axis.horizontal,
                 ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                tileColor: Colors.grey[600],
+                leading: Icon(
+                  Icons.info,
+                  color: Colors.white, // Futuristic green color
+                ),
+                title: Text(
+                  'App Guide',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white, // White text color
+                  ),
+                ),
+                onTap: () {
+                  // Implement guide navigation
+                },
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListTile(
-                    leading: Icon(
-                      Icons.event_note,
-                      color: Colors.white,
-                    ),
-                    title: Text(
-                      'Hackathons Attended',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      '$hackathonsAttended',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                tileColor: Colors.grey[400],
+                leading: Icon(
+                  Icons.calculate,
+                  color: Colors.white, // Futuristic green color
+                ),
+                title: Text(
+                  'Carbon Footprint Calculator',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white, // White text color
                   ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.car_rental,
-                      color: Colors.white,
-                    ),
-                    title: Text(
-                      'Vehicles Pooled',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    subtitle: Text(
-                      '$vehiclesPooled',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
+                ),
+                onTap: () {
+                  moveScreen(context, CarbonFootprintScreen());
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                tileColor: Colors.grey[700],
+                leading: Icon(
+                  Icons.settings,
+                  color: Colors.white, // Futuristic green color
+                ),
+                title: Text(
+                  'Settings',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white, // White text color
                   ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.car_crash,
-                      color: Colors.white,
-                    ),
-                    title: Text(
-                      'Times Been a Cargo Shipper',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    subtitle: Text(
-                      '$timesBeenCargoShipper',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.star,
-                      color: Colors.white,
-                    ),
-                    title: Text(
-                      'Stars',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    subtitle: RatingBarIndicator(
-                      rating: stars,
-                      itemBuilder: (context, index) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                      itemCount: 5,
-                      itemSize: 24.0,
-                      direction: Axis.horizontal,
-                    ),
-                  ),
-                ],
+                ),
+                onTap: () {
+                  // Implement settings navigation
+                },
               ),
             ),
           ],

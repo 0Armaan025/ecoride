@@ -69,12 +69,8 @@ Drawer buildDrawer(BuildContext context) {
             moveScreen(
                 context,
                 ProfileScreen(
-                  email: 'armaan33000@gmail.com',
-                  hackathonsAttended: 2,
                   name: 'Armaan',
-                  stars: 5.2,
-                  vehiclesPooled: 10,
-                  timesBeenCargoShipper: 2,
+                  stars: 10,
                 ));
           },
         ),

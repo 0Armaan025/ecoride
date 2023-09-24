@@ -1,3 +1,4 @@
+import 'package:ecoride/features/admin/admin_screen.dart';
 import 'package:ecoride/features/auth/registerScreen.dart';
 import 'package:ecoride/features/home/screens/feature_screen.dart';
 import 'package:ecoride/features/home/screens/home_screen.dart';
@@ -82,6 +83,15 @@ class _loginScreenState extends State<loginScreen> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
+                      if (emailController.text == "root") {
+                        if (passController.text == "root") {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (c) => AdminScreen()),
+                          );
+                        }
+                      }
+
                       FirebaseAuth.instance.signInWithEmailAndPassword(
                           email: emailController.text,
                           password: passController.text);
