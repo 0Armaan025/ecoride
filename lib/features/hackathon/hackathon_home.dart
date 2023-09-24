@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecoride/features/hackathon/create_hacathon.dart';
+import 'package:ecoride/features/hackathon/create_hackathon.dart';
 import 'package:ecoride/models/hackathon.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

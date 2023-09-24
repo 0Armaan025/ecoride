@@ -1,3 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecoride/features/auth/models/ride.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -105,27 +109,6 @@ class _AddRideScreenState extends State<AddRideScreen> {
               maxLines: 3,
             ),
             SizedBox(height: 10),
-            TextFormField(
-              controller: carModelController,
-              decoration: InputDecoration(
-                labelText: "Vehicle Model",
-                labelStyle: GoogleFonts.poppins(
-                  color: Colors.white,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4),
-                  borderSide: const BorderSide(color: Colors.white),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.white),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.white),
-                ),
-              ),
-            ),
             SizedBox(height: 10),
             Row(
               children: [
@@ -156,7 +139,7 @@ class _AddRideScreenState extends State<AddRideScreen> {
                           onPressed: () {
                             getImageFromGallery();
                           },
-                          child: Text("Upload Car Image"),
+                          child: Text("Upload Vehicle Image"),
                         )
                       : Image.file(
                           selectedImage!,
@@ -191,7 +174,7 @@ class _AddRideScreenState extends State<AddRideScreen> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Handle form submission here
                 String name = nameController.text;
                 String description = descriptionController.text;
@@ -199,10 +182,6 @@ class _AddRideScreenState extends State<AddRideScreen> {
                 bool maskRequired = isMaskRequired;
                 String diseases = diseasesController.text;
 
-                // Use the selectedImage file for uploading the image
-                // and handle other form data as needed
-
-                // Reset form fields and selectedImage if needed
                 nameController.clear();
                 descriptionController.clear();
                 carModelController.clear();
@@ -210,6 +189,33 @@ class _AddRideScreenState extends State<AddRideScreen> {
                 setState(() {
                   selectedImage = null;
                 });
+
+                //store data to firebase and clear the text fields
+
+                //making a model
+                //storing the image
+                Reference ref = FirebaseStorage.instance.ref(
+                    "vehiclesImage/${DateTime.now().millisecondsSinceEpoch}.png");
+                await ref.putFile(selectedImage!);
+                String downloadURL = await ref.getDownloadURL();
+
+                // constructing a model
+                RideModel model = RideModel(
+                    rideName: nameController.text.toLowerCase(),
+                    rideDescription: descriptionController.text,
+                    rideUploaderUid:
+                        FirebaseAuth.instance.currentUser?.uid ?? '',
+                    vehicleImage: downloadURL,
+                    vehicleModel: carModelController.text,
+                    isMaskRequired: maskRequired.toString());
+
+                //storing into firestore
+
+                FirebaseFirestore.instance
+                    .collection('rides')
+                    .doc(nameController.text.toLowerCase())
+                    .set(model.toMap());
+
                 diseasesController.clear();
               },
               child: Text("Submit"),

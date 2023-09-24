@@ -69,10 +69,9 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.lightGreen,
-      drawer: buildDrawer(context),
       appBar: AppBar(
         title: Text('TransHub'),
-    ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,16 +131,16 @@ class HomeScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
+                  _buildFeatureBox(context, 'RideShare', Icons.directions_car,
+                      Colors.blue, () {}),
+                  _buildFeatureBox(context, 'Public Transport', Icons.train,
+                      Colors.green, () {}),
+                  _buildFeatureBox(context, 'Cargo', Icons.local_shipping,
+                      Colors.orange, () {}),
+                  _buildFeatureBox(context, 'Supply Chain', Icons.business,
+                      Colors.purple, () {}),
                   _buildFeatureBox(
-                      context, 'RideShare', Icons.directions_car, Colors.blue),
-                  _buildFeatureBox(
-                      context, 'Public Transport', Icons.train, Colors.green),
-                  _buildFeatureBox(
-                      context, 'Cargo', Icons.local_shipping, Colors.orange),
-                  _buildFeatureBox(
-                      context, 'Supply Chain', Icons.business, Colors.purple),
-                  _buildFeatureBox(
-                      context, 'Hackathon', Icons.code, Colors.red),
+                      context, 'Hackathon', Icons.code, Colors.red, () {}),
                 ],
               ),
             ),
