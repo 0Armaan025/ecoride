@@ -1,3 +1,4 @@
+import 'package:ecoride/features/public_transport/get_transport.dart';
 import 'package:flutter/material.dart';
 
 class AskFromWhereToWhere extends StatefulWidget {
@@ -45,7 +46,15 @@ class _AskFromWhereToWhereState extends State<AskFromWhereToWhere> {
               height: 20,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (c) => GetTransport(
+                              startLocation: fromController.text,
+                              endLocation: toController.text,
+                            )));
+              },
               child: Text("Let's gooo!!",
                   style: TextStyle(
                     color: Colors.white,

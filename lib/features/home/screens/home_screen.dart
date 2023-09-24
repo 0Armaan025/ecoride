@@ -1,4 +1,5 @@
-import 'package:ecoride/utils/utils.dart';
+import 'package:ecoride/features/hackathon/hackathon_home.dart';
+import 'package:ecoride/features/public_transport/AskFromWhereToWhere.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -127,44 +128,21 @@ class HomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             // Horizontal scrolling feature list with neumorphism design
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    _buildFeatureBox(
-                      context,
-                      'RideShare',
-                      Icons.directions_car,
-                      Colors.green, // Change to green manually
-                    ),
-                    _buildFeatureBox(
-                      context,
-                      'Public Transport',
-                      Icons.train,
-                      Colors.green, // Change to green manually
-                    ),
-                    _buildFeatureBox(
-                      context,
-                      'Cargo',
-                      Icons.local_shipping,
-                      Colors.green, // Change to green manually
-                    ),
-                    _buildFeatureBox(
-                      context,
-                      'Supply Chain',
-                      Icons.business,
-                      Colors.green, // Change to green manually
-                    ),
-                    _buildFeatureBox(
-                      context,
-                      'Hackathon',
-                      Icons.code,
-                      Colors.green, // Change to green manually
-                    ),
-                  ],
-                ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  _buildFeatureBox(
+                      context, 'RideShare', Icons.directions_car, Colors.blue),
+                  _buildFeatureBox(
+                      context, 'Public Transport', Icons.train, Colors.green),
+                  _buildFeatureBox(
+                      context, 'Cargo', Icons.local_shipping, Colors.orange),
+                  _buildFeatureBox(
+                      context, 'Supply Chain', Icons.business, Colors.purple),
+                  _buildFeatureBox(
+                      context, 'Hackathon', Icons.code, Colors.red),
+                ],
               ),
             ),
             SizedBox(height: 16.0),
@@ -253,32 +231,35 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureBox(
-      BuildContext context, String title, IconData icon, Color color) {
-    return Card(
-      elevation: 4.0,
-      color: color,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      child: Container(
-        width: 100.0,
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 32.0,
-              color: Colors.white,
-            ),
-            SizedBox(height: 4.0),
-            Text(
-              title,
-              style: TextStyle(fontSize: 12.0, color: Colors.white),
-              textAlign: TextAlign.center,
-            ),
-          ],
+  Widget _buildFeatureBox(BuildContext context, String title, IconData icon,
+      Color color, void Function()? onTap) {
+    return InkWell(
+      onTap: onTap!,
+      child: Card(
+        elevation: 4.0,
+        color: color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Container(
+          width: 100.0,
+          padding: EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 32.0,
+                color: Colors.white,
+              ),
+              SizedBox(height: 4.0),
+              Text(
+                title,
+                style: TextStyle(fontSize: 12.0, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );

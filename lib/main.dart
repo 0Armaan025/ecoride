@@ -1,4 +1,4 @@
-import 'package:ecoride/common/pool_vehicle_btn.dart';
+import 'package:dotenv/dotenv.dart';
 import 'package:ecoride/features/auth/loginScreen.dart';
 import 'package:ecoride/features/cargo_shipping/cargo_listings_screen.dart';
 import 'package:ecoride/features/cargo_shipping/screens/add_cargo_screen.dart';
@@ -7,10 +7,9 @@ import 'package:ecoride/features/community/screens/forum_screen.dart';
 import 'package:ecoride/features/home/screens/home_screen.dart';
 import 'package:ecoride/features/notifications/screens/notification_screen.dart';
 import 'package:ecoride/features/public_transport/AskFromWhereToWhere.dart';
-import 'package:ecoride/features/rideshare/screens/vehicle_pooling/rides_screen.dart';
-import 'package:ecoride/features/rideshare/screens/vehicle_pooling/vehicle_pooler_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -33,7 +32,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: ForumScreen(),
+      home: loginScreen(),
     );
   }
 }
