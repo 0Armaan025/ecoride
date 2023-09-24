@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 class CargoApprovalScreen extends StatelessWidget {
+
+  
   const CargoApprovalScreen({Key? key}) : super(key: key);
 
   @override

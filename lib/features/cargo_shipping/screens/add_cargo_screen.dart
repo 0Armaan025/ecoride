@@ -1,7 +1,10 @@
 import 'package:ecoride/features/cargo_shipping/screens/cargo_approval_screen.dart';
 import 'package:ecoride/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../auth/models/cargo.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -137,6 +140,18 @@ class _AddCargoScreenState extends State<AddCargoScreen> {
                 onPressed: () {
                   // Validate form fields
                   if (_formKey.currentState!.validate()) {
+                    CargoModel cargoModel = CargoModel(
+                      cargoDescription: cargoDescriptionController.text,
+                      cargoWeight: cargoWeightController.text,
+                      cargoDestination: destinationController.text,
+                      cargoOrigin: originController.text,
+                      professionalismCheck: professionalismChecked.toString(),
+                      cargoShipperEmail: shipperEmailController.text,
+                      cargoName: shipmentName.text,
+                      cargoShipperUid:
+                          FirebaseAuth.instance.currentUser?.uid ?? '',
+                    );
+
                     moveScreen(context, CargoApprovalScreen());
                   }
                 },

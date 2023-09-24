@@ -1,12 +1,8 @@
+import 'package:ecoride/features/cargo_shipping/screens/add_cargo_screen.dart';
+import 'package:ecoride/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../rideshare/screens/vehicle_pooling/vehicle_pooler_screen.dart';
-
-void main() {
-  runApp(MaterialApp(
-    home: CargoListingsScreen(),
-  ));
-}
 
 class CargoListingsScreen extends StatefulWidget {
   @override
@@ -22,7 +18,11 @@ class _CargoListingsScreenState extends State<CargoListingsScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: IconButton(icon: Icon(Icons.add), onPressed: () {}),
+        child: IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              moveScreen(context, AddCargoScreen());
+            }),
       ),
       appBar: AppBar(
         title: Text("Cargo Listings"),

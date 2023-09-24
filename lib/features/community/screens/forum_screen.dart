@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MaterialApp(
+    theme: ThemeData(
+      primaryColor: Colors.green[700], // Customize primary color
+      scaffoldBackgroundColor: Colors.green[100], // Customize background color
+    ),
+    home: ForumScreen(),
+  ));
+}
 
 class Post {
   final String title;
@@ -9,15 +18,6 @@ class Post {
 
   Post({required this.title, required this.content, List<String>? comments})
       : this.comments = comments ?? [];
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ForumScreen(),
-    );
-  }
 }
 
 class ForumScreen extends StatefulWidget {
@@ -64,6 +64,7 @@ class _ForumScreenState extends State<ForumScreen> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
+                color: Colors.green[700], // Customize text color
               ),
             ),
             SizedBox(height: 8),
@@ -194,7 +195,14 @@ class CommentsScreen extends StatelessWidget {
         itemCount: comments.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(comments[index]),
+            tileColor: Colors.grey[200],
+            title: Text(
+              comments[index],
+              style: TextStyle(
+                color: Colors.green[900], // Customize text color
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           );
         },
       ),

@@ -1,5 +1,8 @@
+import 'package:ecoride/features/cargo_shipping/cargo_listings_screen.dart';
 import 'package:ecoride/features/hackathon/hackathon_home.dart';
 import 'package:ecoride/features/public_transport/AskFromWhereToWhere.dart';
+import 'package:ecoride/features/rideshare/screens/vehicle_pooling/rides_screen.dart';
+import 'package:ecoride/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -127,21 +130,30 @@ class HomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             // Horizontal scrolling feature list with neumorphism design
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  _buildFeatureBox(context, 'RideShare', Icons.directions_car,
-                      Colors.blue, () {}),
-                  _buildFeatureBox(context, 'Public Transport', Icons.train,
-                      Colors.green, () {}),
-                  _buildFeatureBox(context, 'Cargo', Icons.local_shipping,
-                      Colors.orange, () {}),
-                  _buildFeatureBox(context, 'Supply Chain', Icons.business,
-                      Colors.purple, () {}),
-                  _buildFeatureBox(
-                      context, 'Hackathon', Icons.code, Colors.red, () {}),
-                ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    _buildFeatureBox(
+                        context, 'RideShare', Icons.directions_car, Colors.blue,
+                        () {
+                      moveScreen(context, RidesScreen());
+                    }),
+                    _buildFeatureBox(context, 'Public Transport', Icons.train,
+                        Colors.green, () {}),
+                    _buildFeatureBox(
+                        context, 'Cargo', Icons.local_shipping, Colors.orange,
+                        () {
+                      moveScreen(context, CargoListingsScreen());
+                    }),
+                    _buildFeatureBox(context, 'Supply Chain', Icons.business,
+                        Colors.purple, () {}),
+                    _buildFeatureBox(
+                        context, 'Hackathon', Icons.code, Colors.red, () {}),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 16.0),

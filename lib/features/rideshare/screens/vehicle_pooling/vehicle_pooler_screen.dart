@@ -1,4 +1,3 @@
-import 'package:ecoride/common/pool_vehicle_btn.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -30,7 +29,7 @@ class _VehiclePoolerScreenState extends State<VehiclePoolerScreen> {
               Text(
                 "Hey Armaan, 👋🏻",
                 style: GoogleFonts.roboto(
-                  color: Colors.purple,
+                  color: Colors.green[700], // Customize text color
                   fontSize: 30,
                 ),
               ),
@@ -41,7 +40,7 @@ class _VehiclePoolerScreenState extends State<VehiclePoolerScreen> {
                 child: Text(
                   "Would you like to\npool your vehicle?",
                   style: GoogleFonts.poppins(
-                    color: Colors.blue,
+                    color: Colors.green[700], // Customize text color
                     fontSize: 26,
                     fontWeight: FontWeight.w600,
                   ),
@@ -68,7 +67,7 @@ class _VehiclePoolerScreenState extends State<VehiclePoolerScreen> {
                       ),
                       decoration: BoxDecoration(
                         color: selectedVehicle == vehicle
-                            ? Colors.blue
+                            ? Colors.green[700] // Customize selected color
                             : Colors.white,
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
@@ -96,6 +95,16 @@ class _VehiclePoolerScreenState extends State<VehiclePoolerScreen> {
               const SizedBox(
                 height: 20,
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: Center(
+                  child: Text(
+                    "Let's choose a speed you are going on, right now!",
+                    style:
+                        GoogleFonts.poppins(color: Colors.green, fontSize: 16),
+                  ),
+                ),
+              ),
               Column(
                 children: speedOptions.map((double speed) {
                   return GestureDetector(
@@ -112,8 +121,9 @@ class _VehiclePoolerScreenState extends State<VehiclePoolerScreen> {
                         vertical: 10,
                       ),
                       decoration: BoxDecoration(
-                        color:
-                            selectedSpeed == speed ? Colors.blue : Colors.white,
+                        color: selectedSpeed == speed
+                            ? Colors.green[700] // Customize selected color
+                            : Colors.white,
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
@@ -176,7 +186,7 @@ class _VehiclePoolerScreenState extends State<VehiclePoolerScreen> {
                 child: Text(
                   "or book a ride",
                   style: GoogleFonts.roboto(
-                    color: Colors.blue.shade900,
+                    color: Colors.green[700], // Customize text color
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
@@ -187,7 +197,18 @@ class _VehiclePoolerScreenState extends State<VehiclePoolerScreen> {
               const SizedBox(
                 height: 20,
               ),
-              PoolVehicleButton(onPressed: () {}),
+              ElevatedButton(
+                onPressed: () {},
+                child: Text(
+                  "Pool Your Vehicle",
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green[700], // Customize button color
+                ),
+              ),
               const SizedBox(
                 height: 40,
               ),
@@ -195,6 +216,7 @@ class _VehiclePoolerScreenState extends State<VehiclePoolerScreen> {
           ),
         ),
       ),
+      backgroundColor: Colors.green[100], // Customize the background color
     );
   }
 }
