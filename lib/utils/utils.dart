@@ -1,5 +1,8 @@
+import 'package:ecoride/constants/constants.dart';
+import 'package:ecoride/features/auth/loginScreen.dart';
 import 'package:ecoride/features/home/screens/feature_screen.dart';
 import 'package:ecoride/features/profile/profile_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -69,7 +72,7 @@ Drawer buildDrawer(BuildContext context) {
             moveScreen(
                 context,
                 ProfileScreen(
-                  name: 'Armaan',
+                  name: '${sharedPreferences!.getString("name")}',
                   stars: 10,
                 ));
           },
@@ -91,7 +94,9 @@ Drawer buildDrawer(BuildContext context) {
               style: TextStyle(color: Colors.green)), // Dark green text color
           onTap: () {
             // Perform logout actions here
-            Navigator.pop(context); // Close the drawer
+            FirebaseAuth.instance.signOut();
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (c) => loginScreen()));
           },
         ),
         Divider(), // A horizontal line to separate items

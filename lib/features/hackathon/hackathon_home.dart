@@ -37,32 +37,42 @@ class _HackathonHomeState extends State<HackathonHome> {
                     );
                     return Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        children: [
-                          Image.network(
-                            hackathon.image,
-                            width: double.infinity,
-                            fit: BoxFit.fill,
-                            height: MediaQuery.of(context).size.height * 0.15,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            hackathon.hackName,
-                            style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            "${hackathon.startDate} - ${hackathon.endDate}",
-                            style: TextStyle(color: Colors.grey),
-                          )
-                        ],
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (c) => HackathonDetail(
+                                        hackathon: hackathon,
+                                      )));
+                        },
+                        child: Column(
+                          children: [
+                            Image.network(
+                              hackathon.image,
+                              width: double.infinity,
+                              fit: BoxFit.fill,
+                              height: MediaQuery.of(context).size.height * 0.30,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              hackathon.hackName,
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "${hackathon.startDate} - ${hackathon.endDate}",
+                              style: TextStyle(color: Colors.grey),
+                            )
+                          ],
+                        ),
                       ),
                     );
                   },

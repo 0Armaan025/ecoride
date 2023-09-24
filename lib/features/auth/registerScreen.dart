@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecoride/constants/constants.dart';
 import 'package:ecoride/features/auth/loginScreen.dart';
 import 'package:ecoride/features/auth/models/user.dart';
 import 'package:ecoride/features/home/screens/feature_screen.dart';
@@ -120,6 +121,7 @@ class _registerScreenState extends State<registerScreen> {
                           .collection("users")
                           .doc(FirebaseAuth.instance.currentUser!.uid)
                           .set(model.toMap());
+                      sharedPreferences!.setString("name", nameController.text);
                       Navigator.push(
                           context,
                           MaterialPageRoute(

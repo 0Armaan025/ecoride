@@ -1,7 +1,9 @@
+import 'package:ecoride/constants/constants.dart';
 import 'package:ecoride/features/cargo_shipping/cargo_listings_screen.dart';
 import 'package:ecoride/features/hackathon/hackathon_home.dart';
 import 'package:ecoride/features/public_transport/AskFromWhereToWhere.dart';
 import 'package:ecoride/features/rideshare/screens/vehicle_pooling/rides_screen.dart';
+import 'package:ecoride/features/rideshare/screens/vehicle_pooling/vehicle_pooler_screen.dart';
 import 'package:ecoride/models/hackathon.dart';
 import 'package:ecoride/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +11,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
-
-import '../../notifications/screens/notification_screen.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -77,14 +77,8 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: const Color.fromARGB(255, 154, 218, 156),
       drawer: buildDrawer(context),
       appBar: AppBar(
+        backgroundColor: Colors.green[700],
         title: Text('TransHub'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                moveScreen(context, NotificationScreen());
-              },
-              icon: Icon(Icons.notifications)),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -96,7 +90,7 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Good Morning, Armaan',
+                    'Good Morning, ${sharedPreferences!.getString("name")}',
                     style: TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
@@ -163,13 +157,12 @@ class HomeScreen extends StatelessWidget {
                     }),
                     _buildFeatureBox(context, 'Cargo', Icons.local_shipping,
                         Colors.green, // Change to green manually
-                        () {}),
-                    _buildFeatureBox(
-                        context,
-                        'Supply Chain',
-                        Icons.business,
-                        Colors.green, // Change to green manually
-                        () {}),
+                        () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (c) => CargoListingsScreen()));
+                    }),
                     _buildFeatureBox(context, 'Hackathon', Icons.code,
                         Colors.green, // Change to green manually
                         () {

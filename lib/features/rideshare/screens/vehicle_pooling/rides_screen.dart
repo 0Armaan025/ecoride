@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecoride/features/rideshare/screens/vehicle_pooling/add_ride_screen.dart';
+import 'package:ecoride/models/Ride.dart';
 import 'package:ecoride/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -89,22 +91,43 @@ class RidesScreen extends StatelessWidget {
             SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 28.0),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(children: [
-                  RideListing(
-                    imageUrl: "https://via.placeholder.com/100x100?text=Ride1",
-                    title: "Car - ABC 123",
-                    driver: "Driver: John Doe",
-                    destination: "Destination: Destination",
-                  ),
-                  RideListing(
-                    imageUrl: "https://via.placeholder.com/100x100?text=Ride2",
-                    title: "Bike - XYZ 456",
-                    driver: "Driver: Jane Smith",
-                    destination: "Destination: Destination",
-                  ),
-                ]),
+              // child: SingleChildScrollView(
+              //   scrollDirection: Axis.horizontal,
+              //   child: Row(children: [
+              //     RideListing(
+              //       imageUrl: "https://via.placeholder.com/100x100?text=Ride1",
+              //       title: "Car - ABC 123",
+              //       driver: "Driver: John Doe",
+              //       destination: "Destination: Destination",
+              //     ),
+              //     RideListing(
+              //       imageUrl: "https://via.placeholder.com/100x100?text=Ride2",
+              //       title: "Bike - XYZ 456",
+              //       driver: "Driver: Jane Smith",
+              //       destination: "Destination: Destination",
+              //     ),
+              //   ]),
+              // ),
+              child: StreamBuilder<QuerySnapshot>(
+                stream:
+                    FirebaseFirestore.instance.collection("Rides").snapshots(),
+                builder: (context, snapshot) {
+                  return snapshot.hasData
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            Ride ride = Ride.fromMap(snapshot.data!.docs[index]
+                                .data()! as Map<String, dynamic>);
+                            return RideListing(
+                                imageUrl: ride.image,
+                                title: ride.carModel,
+                                driver: ride.name,
+                                destination: ride.destination);
+                          },
+                        )
+                      : Container();
+                },
               ),
             ),
 
@@ -185,9 +208,10 @@ class RideListing extends StatelessWidget {
           ],
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.network(imageUrl, width: 100, height: 100, fit: BoxFit.cover),
+            Image.network(imageUrl,
+                width: double.infinity, height: 100, fit: BoxFit.cover),
             SizedBox(height: 10),
             Text(
               title,

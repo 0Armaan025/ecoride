@@ -20,9 +20,9 @@ class AddRideScreen extends StatefulWidget {
 class _AddRideScreenState extends State<AddRideScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController carModelController = TextEditingController();
-  TextEditingController diseasesController = TextEditingController();
+  TextEditingController vehicleController = TextEditingController();
   TextEditingController totalPeople = TextEditingController();
+  TextEditingController destination = TextEditingController();
   bool isMaskRequired = false;
   File? selectedImage;
 
@@ -108,9 +108,30 @@ class _AddRideScreenState extends State<AddRideScreen> {
               maxLines: 3,
             ),
             SizedBox(height: 10),
+            TextFormField(
+              controller: destination,
+              decoration: InputDecoration(
+                labelText: "Destination",
+                labelStyle: GoogleFonts.poppins(
+                  color: Colors.white,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.white),
+                ),
+              ),
+            ),
             SizedBox(height: 10),
             TextFormField(
-              controller: carModelController,
+              controller: totalPeople,
               decoration: InputDecoration(
                 labelText: "Total number of people who can sit",
                 labelStyle: GoogleFonts.poppins(
@@ -173,7 +194,7 @@ class _AddRideScreenState extends State<AddRideScreen> {
             ),
             SizedBox(height: 10),
             TextFormField(
-              controller: diseasesController,
+              controller: vehicleController,
               decoration: InputDecoration(
                 labelText: "Vehicle Model",
                 labelStyle: GoogleFonts.poppins(
@@ -199,9 +220,8 @@ class _AddRideScreenState extends State<AddRideScreen> {
                 // Handle form submission here
                 String name = nameController.text;
                 String description = descriptionController.text;
-                String carModel = carModelController.text;
                 bool maskRequired = isMaskRequired;
-                String diseases = diseasesController.text;
+                String vehicle = vehicleController.text;
                 String id = DateTime.now().millisecondsSinceEpoch.toString();
                 Reference ref =
                     FirebaseStorage.instance.ref("rideImage/${id}.png");
@@ -212,31 +232,26 @@ class _AddRideScreenState extends State<AddRideScreen> {
                 FirebaseFirestore.instance.collection("Rides").doc(id).set({
                   "name": name,
                   "description": description,
-                  "carModel": carModel,
-                  "maxPeople": int.parse(totalPeople.text),
+                  "carModel": vehicle,
+                  "maxPeople": totalPeople.text,
                   "maskRequired": maskRequired,
-                  "disease": diseases,
+                  "image": downloadURL,
                   "ID": id,
                   "publishedBy": FirebaseAuth.instance.currentUser!.uid,
+                  "destination": destination.text,
+                }).then((value) {
+                  nameController.clear();
+                  descriptionController.clear();
+                  isMaskRequired = false;
+                  setState(() {
+                    selectedImage = null;
+                  });
+
+                  vehicleController.clear();
+                  Navigator.pop(context);
                 });
-                // Reset form fields and selectedImage if needed
-                nameController.clear();
-                descriptionController.clear();
-                carModelController.clear();
-                isMaskRequired = false;
-                setState(() {
-                  selectedImage = null;
-                });
-
-                //store data to firebase and clear the text fields
-
-                //making a model
-                //storing the image
-
-                //storing into firestore
-
-                diseasesController.clear();
               },
+              // Reset form fields and selectedImage if needed
               child: Text("Submit"),
             ),
           ],

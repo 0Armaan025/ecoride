@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecoride/constants/constants.dart';
 import 'package:ecoride/features/admin/admin_screen.dart';
 import 'package:ecoride/features/auth/registerScreen.dart';
 import 'package:ecoride/features/home/screens/feature_screen.dart';
@@ -95,6 +97,15 @@ class _loginScreenState extends State<loginScreen> {
                       FirebaseAuth.instance.signInWithEmailAndPassword(
                           email: emailController.text,
                           password: passController.text);
+
+                      FirebaseFirestore.instance
+                          .collection("users")
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .get()
+                          .then((value) {
+                        sharedPreferences!
+                            .setString("name", value.data()!["name"]);
+                      });
                       Navigator.push(
                           context,
                           MaterialPageRoute(

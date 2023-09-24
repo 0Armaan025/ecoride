@@ -95,7 +95,7 @@ class CalculatorScreen extends State<CarbonFootprintScreen> {
                       });
                     },
                     child: Text(
-                      selectedUnit == DistanceUnit.miles ? 'Miles' : "km",
+                      selectedUnit == DistanceUnit.miles ? 'Miles' : "Miles",
                       style: TextStyle(fontSize: 18),
                     ),
                     style: ElevatedButton.styleFrom(
