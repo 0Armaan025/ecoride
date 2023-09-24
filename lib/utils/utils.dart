@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void moveScreen(BuildContext context, Widget screen,
     {bool isPushReplacement = false}) {
@@ -118,7 +119,96 @@ Drawer buildDrawer(BuildContext context) {
             Navigator.pop(context); // Close the drawer
           },
         ),
+        ListTile(
+          leading: Icon(Icons.directions_car,
+              color: Colors.green), // Dark green icon color
+          title: Text("Add Your Vehicle for Pooling",
+              style: TextStyle(color: Colors.green)), // Dark green text color
+          onTap: () {
+            // Navigate to add your vehicle for pooling screen
+            Navigator.pop(context); // Close the drawer
+          },
+        ),
+        ListTile(
+          tileColor: Colors.red,
+          leading:
+              Icon(Icons.sos, color: Colors.white), // Dark green icon color
+          title: Text("Emergency SOS",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold)), // Dark green text color
+          onTap: () {
+            // Show SOS confirmation dialog
+            showSOSConfirmationDialog(context);
+          },
+        ),
       ],
     ),
+  );
+}
+
+void showSOSConfirmationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text("Emergency SOS"),
+        content: Text("Are you sure you want to send an SOS signal?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close the dialog
+            },
+            child: Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              // Handle SOS action here
+              Navigator.pop(context); // Close the dialog
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text("Emergency SOS"),
+                    content:
+                        Text("Are you sure you want to send an SOS signal?"),
+                    actions: [
+                      TextButton(
+                        onPressed: () async {
+                          // Handle SOS action here
+                          Navigator.pop(context); // Close the dialog
+                          const phoneNumber = '7837433000';
+                          final url = 'tel:$phoneNumber';
+
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
+                        },
+                        child: Text(
+                          "Yes, Send SOS",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context); // Close the dialog
+                        },
+                        child: Text("Cancel"),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            child: Text(
+              "Yes, Send SOS",
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      );
+    },
   );
 }
